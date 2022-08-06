@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { MONOSYNTH, POLYSYNTH } from '../synths/main';
+import { MONOSYNTH, POLYSYNTH } from '../../../synths/main';
 
 
 

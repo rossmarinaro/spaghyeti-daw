@@ -1,6 +1,6 @@
 import * as Tone from 'tone';
 import { useEffect } from "react";
-import { EventManager } from './eventManager';
+import { EventManager } from '../../ui/instruments/piano/sequencer/eventManager';
 
 const eventManager = new EventManager();
 

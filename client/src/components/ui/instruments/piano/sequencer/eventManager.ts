@@ -1,5 +1,5 @@
 import * as Tone from 'tone';
-import { MONOSYNTH, POLYSYNTH } from '../synths/main';
+import { MONOSYNTH, POLYSYNTH } from '../../../../synths/main';
 
 export class EventManager {
 
@@ -125,6 +125,10 @@ export class EventManager {
          
         switch (this.counter)
         {
+            case 0: 
+                highLightCurrentTrack(track1);
+                this.counter = 0; 
+            break;
             case 2: highLightCurrentTrack(track2); break;
             case 4: highLightCurrentTrack(track3); break;
             case 6: highLightCurrentTrack(track4); break;

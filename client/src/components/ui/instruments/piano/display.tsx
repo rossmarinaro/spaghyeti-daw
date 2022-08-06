@@ -1,6 +1,6 @@
 import React from 'react';
 import Phaser from 'phaser';
-import { Sequencer } from './sequencer';
+import { Sequencer } from './sequencer/sequencer';
 
 
 const VISUALIZATION = { init: false}

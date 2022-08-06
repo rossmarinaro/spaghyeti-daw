@@ -14,7 +14,7 @@ app.use(express.json());
 //require('./app/endpoints.js');
 
 
-//require('./electron.js');										// electron desktop builder
+require('./app/electron.js');										// electron desktop builder
 
 
 //---------------------------------server listen on port 
@@ -25,20 +25,3 @@ server.listen(port, ()=> console.log(`Welcome to port ${port}, SPAGHYETI-DAW dev
 
 
 
-//add this to server pkg.json
-
-// "build": {
-//     "appId": "Pastaboss: A Recipe For Disaster",
-//     "extends": null,
-//     "win": {
-//       "icon": "./public/img/logo.png",
-//       "target": "msi"
-//     },
-//     "extraResources": {
-//       "from": "./extern",
-//       "to": "buildSys",
-//       "filter": [
-//         "**/*"
-//       ]
-//     }
-//   },

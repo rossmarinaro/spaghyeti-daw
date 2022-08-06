@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import * as Tone from 'tone';
 
-import { MONOSYNTH, POLYSYNTH } from '../synths/main';
+import { MONOSYNTH, POLYSYNTH } from '../../../synths/main';
 
 export function SoundManager()
 {

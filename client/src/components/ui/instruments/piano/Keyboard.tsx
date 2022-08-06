@@ -1,8 +1,8 @@
 
-import '../../css/Piano.css';
+import '../../../../css/Piano.css';
 
 import React, { useEffect, useState } from 'react';
-import { MONOSYNTH, POLYSYNTH } from '../synths/main';
+import { MONOSYNTH, POLYSYNTH } from '../../../synths/main';
 import VISUALIZATION from './display';
 
 //import 'react-piano/dist/styles.css';

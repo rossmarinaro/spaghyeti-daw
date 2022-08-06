@@ -1,21 +1,30 @@
 
 import './css/App.css';
-import { AudioPlayer } from './components/main/audioPlayer';
-import { PIANO } from './components/piano/main';
-import { TRACK } from './components/track/main'; 
+
+import { MainMenu } from './components/ui/menus/main';
+import { AudioPlayer } from './components/workspace/audioPlayer';
+
+import { PIANO } from './components/ui/instruments/piano/main';
+import { TRACK } from './components/workspace/track/main'; 
 
 
 function App() {
+
+  const currentInstrument = 'Piano';
   
   return (
 
-    <div className="App container" id="main-container">
+    <div className="App container" >
 
       <header className="App-header">
-
+        <MainMenu instrument={currentInstrument}/>
       </header>
 
-        <div className="container" id="piano-rack"><PIANO /></div>  
+
+      <div id="main-container">
+      <div className="container" id="piano-rack">
+        <PIANO />
+      </div>  
         
     
         <div id="workspace">   
@@ -39,6 +48,8 @@ function App() {
             </form>
           </div>
           <div className="container"><TRACK /></div>
+
+        </div>
 
       </div>
 

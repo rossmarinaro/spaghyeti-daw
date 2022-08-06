@@ -21,7 +21,7 @@ function createWindow ()
 		}
 	});
 //load content to window
-	win.loadFile('../public/index.html');
+	win.loadFile('public/index.html');
 //shows debugger
 	//win.webContents.openDevTools(); 		
 }
