@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { MONOSYNTH, POLYSYNTH } from '../../../synths/main';
 import { eventManager } from './sequencer/eventManager';
 import VISUALIZATION from './display';
+import { playerManager } from '../../../workspace/track/playerManager';
 
 //import 'react-piano/dist/styles.css';
 
@@ -102,9 +103,14 @@ export function KEYBOARD ()
 
 		let note = midiToNote(message * octave),
 			time = Tone.Transport.seconds;
-
-		eventManager.events.push([time, note]); 
-		eventManager.mainPart = new Tone.Part(eventManager.currentPart, eventManager.events);
+	
+	//capture inputs if recording
+	
+		if (playerManager.recording === true)
+		{
+			eventManager.events.push([time, note]); 
+			eventManager.mainPart = new Tone.Part(eventManager.currentPart, eventManager.events);
+		}
 
 	//play note
 		POLYSYNTH.triggerAttackRelease(`${note}`, duration);
@@ -136,7 +142,7 @@ export function KEYBOARD ()
 				stopNote={(midiNumber: number) => {
 					POLYSYNTH.releaseAll();
 					VISUALIZATION.init = false;
-				}}  //MONOSYNTH.triggerRelease()}
+				}}  
 				/* width={window.innerWidth / 2} */
 				keyboardShortcuts={keyboardShortcuts}
 			/>

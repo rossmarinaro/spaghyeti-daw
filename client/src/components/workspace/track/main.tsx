@@ -1,10 +1,10 @@
-import { PlayerManager } from './playerManager';
+import { PlayerRack } from './playerManager';
 
 export function TRACK()
 {
     return (
         <div className='bordered' >
-            <PlayerManager />
+            <PlayerRack />
         </div>
     );
 }

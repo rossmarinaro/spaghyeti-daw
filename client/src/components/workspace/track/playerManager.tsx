@@ -5,25 +5,33 @@ import { eventManager } from '../../ui/instruments/piano/sequencer/eventManager'
 
 let init = false;
 
-export function PlayerManager()
+export const playerManager = {
+    recording: false
+}
+
+export function PlayerRack()
 {
 
     let toggle = false;
 
-    const handleActions = (e: any) =>  e.preventDefault(),
+    const handleActions = (e: any) => e.preventDefault(),
 
     update = (action: string) => {
 
         switch(action)
         {
+            case 'record': playerManager.recording = true; break; 
+
             case 'start': 
 
-                Tone.Transport.start();
+                Tone.Transport.start(0);
+                eventManager.sequenceArray.start(0);
                 eventManager.mainLoop.start(0);
                 eventManager.subLoop16th.start(0);
                 eventManager.subLoop8th.start(0);
 
             break;
+
             case 'stop': 
 
                 Tone.Transport.stop(0);
@@ -33,13 +41,10 @@ export function PlayerManager()
                 eventManager.subLoop8th.stop(0);
                 eventManager.clearTrackHighlight();
                 eventManager.counter = 0;
+                playerManager.recording = false;
 
             break;
-            case 'record': 
 
-                eventManager.sequenceArray.start(0);
-
-            break;
             case 'pause': 
 
                 if (toggle === false)

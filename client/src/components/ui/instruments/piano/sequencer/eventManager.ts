@@ -54,80 +54,41 @@ export class EventManager {
 
     } 
 
-
-//-----------------------------------------
-
-//tmp
-    private async getPads()//: Promise<Element[] | undefined>//Promise<Element[] | boolean | undefined>
-    {
-        const 
-            activePads = [],
-            pads = Array.from(document.getElementsByClassName('sequencer-pad'));
-    
-        for (let i = 0; i < pads.length + 1; i++)
-        {        
-            const pad = document.getElementById(`sequencer-pad-${i}`);
-
-            if (pad?.style.opacity === '1') 
-                activePads.push(pad);
-               
-
-            // if (pad !== null)
-            // {   
-            //     if (pad.style.opacity === '1')
-            //         return pads//continue;
-            //     else    
-            //         return false//pads;
-            // }
-        } 
-        return activePads
-        // return activePads.filter((activePad: HTMLElement | null) => {
-
-        //     if (activePad?.style.opacity === '1')
-        //         return activePad;
-        //     else    
-        //         return pads;
-            
-        // })
-    }
-
+    //-----------------------------------------------
  
     public async currentPart(time: number, note: any): Promise<void>
     {     
 
-        //this.currentNote = note;
+        this.currentNote = note;
         this.currentTime = time;
-        //console.log('playing note: ', this.currentNote, 'at time: ', this.currentTime);
 
         const pads = eventManager.getPads(); 
         
-        if (pads)
-            console.log(pads)
+       if (pads)
+        {
+            (await pads).forEach(pad => {
 
-        // if (pad.style.opacity === '1' /* && Number(pad.dataset.part) / 4 === eventManager.counter16th / 4 */)
-        // {
-        //     console.log(Number(pad.dataset.part) / 4, eventManager.counter16th / 4)
-        //     POLYSYNTH.triggerAttackRelease(this.currentNote, '4n', this.currentTime);
-        // }
-        // else
-        // {
+                let padNum = Number(pad.getAttribute('data-part'));
+                if (eventManager.counter8th === padNum)
+                {
+                    console.log(eventManager.counter8th, padNum);
+                    POLYSYNTH.triggerAttackRelease(this.currentNote, '4n', this.currentTime);
+                }
+                //else 
+                    //console.log('pads: ', pads);
+                // eventManager.events.forEach(event => {
+                //     console.log(event[0]/* .toFixed(2) */, Tone.Transport.seconds, this.currentTime)
+                //     //if (event[0].toFixed(2))
+                // });
+            });
+       }
 
-        //     eventManager.events.filter(event => { 
-        //         //console.log('pad subdivision: ', subdivision/* , eventManager.counter16th / 4 */)
-                
-        //         if (Number(pad.dataset.part) / 4 === eventManager.counter16th / 4)
-        //         {
-        //             console.log('event at time: ', event);
-        
-        //         }
-            
-        //     });
-        // }
-    
-    //play note if defined or sequencer pad enabled
-    
-        if (this.currentNote !== '')
-            POLYSYNTH.triggerAttackRelease(this.currentNote, '4n', this.currentTime);
+        // console.log( 
+        //     'playing note: ', this.currentNote, 
+        //     'at time: ', this.currentTime, 
+        //     'at subdivision 8th: ', eventManager.counter8th,
+        //     'at subdivision 16th: ', eventManager.counter16th
+        // );
     }
 
 
@@ -138,13 +99,6 @@ export class EventManager {
     {      
                 
         this.clearTrackHighlight();
-        if (currentTrack[0])
-        {
-            //currentTrack[0].dataset.note = eventManager.currentNote;
-            //console.log(eventManager.mainPart, this.counter16th)
-        }
-        //currentTrack[1].dataset.part
-        //currentTrack[2].dataset.part
 
         currentTrack.forEach((i: (HTMLElement | null)) => {
             if (i !== null) 
@@ -170,6 +124,26 @@ export class EventManager {
 
 
  //----------------------------------------- private methods
+
+
+
+    private async getPads(): Promise<Element[]>
+    {
+        const 
+            activePads = [],
+            pads = Array.from(document.getElementsByClassName('sequencer-pad'));
+    
+        for (let i = 0; i < pads.length + 1; i++)
+        {        
+            const pad = document.getElementById(`sequencer-pad-${i}`);
+
+            if (pad?.style.opacity === '1') //pushes to active pads
+                activePads.push(pad);
+        } 
+        return activePads;
+    }
+
+    //--------------------------------------------
 
 
     private async startCounter4th(ticks: number): Promise<void>
