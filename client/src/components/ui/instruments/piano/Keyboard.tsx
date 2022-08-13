@@ -105,7 +105,7 @@ export function KEYBOARD ()
 			time = Tone.Transport.seconds;
 	
 	//capture inputs if recording
-	
+
 		if (playerManager.recording === true)
 		{
 			eventManager.events.push([time, note]); 
@@ -117,7 +117,7 @@ export function KEYBOARD ()
 
 	},
 
-	assignMidiToKeys = () => {
+	assignMidiToKeys = () => {     
 
 		if (initialized)
 			return;
