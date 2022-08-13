@@ -28,14 +28,25 @@ export function Sequencer ()
                     e.preventDefault(); 
                     pad.style.opacity = pad.style.opacity === '1' ? '0.5' : '1';  
                 
-                    eventManager.events.forEach(event => {
-                        console.log(event[0], event[1], Number(pad.dataset.part))
+                   // if (pad.style.opacity === '0.5')
+                //    // {
+                //         eventManager.events.filter(event => {
+                //             //console.log('counter8th: ', eventManager.counter8th, 'time: ', event[0], 'note: '/* , event[1], 'data: ', Number(pad.dataset.part) */)
+                           
+                //             if (Number(pad.dataset.part) / 4 === eventManager.counter8th / 4)
+                //             //{
+                //                 console.log(event)
+                //            // }
+                //         });
+                   // }
+                  //  else 
+                   // {
 
-                        // if (Math.floor(eventManager.currentTime) === i)
-                            // console.log('pad triggered: ', pad);
-                    });
+                   // }
                  
                 });
+
+
 
             }
         } 

@@ -103,7 +103,7 @@ export function KEYBOARD ()
 		let note = midiToNote(message * octave),
 			time = Tone.Transport.seconds;
 
-		eventManager.events.push([time, note]);
+		eventManager.events.push([time, note]); 
 		eventManager.mainPart = new Tone.Part(eventManager.currentPart, eventManager.events);
 
 	//play note

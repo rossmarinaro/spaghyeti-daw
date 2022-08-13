@@ -52,24 +52,125 @@ export class EventManager {
         Tone.Transport.bpm.value = 170; 
         Tone.Transport.schedule(time => this.scheduledCallback(time), "0:0:0"); 
 
-   
     } 
 
+
 //-----------------------------------------
+
+//tmp
+    private async getPads()//: Promise<Element[] | undefined>//Promise<Element[] | boolean | undefined>
+    {
+        const 
+            activePads = [],
+            pads = Array.from(document.getElementsByClassName('sequencer-pad'));
+    
+        for (let i = 0; i < pads.length + 1; i++)
+        {        
+            const pad = document.getElementById(`sequencer-pad-${i}`);
+
+            if (pad?.style.opacity === '1') 
+                activePads.push(pad);
+               
+
+            // if (pad !== null)
+            // {   
+            //     if (pad.style.opacity === '1')
+            //         return pads//continue;
+            //     else    
+            //         return false//pads;
+            // }
+        } 
+        return activePads
+        // return activePads.filter((activePad: HTMLElement | null) => {
+
+        //     if (activePad?.style.opacity === '1')
+        //         return activePad;
+        //     else    
+        //         return pads;
+            
+        // })
+    }
+
  
-    public currentPart(time: number, note: any): void
+    public async currentPart(time: number, note: any): Promise<void>
     {     
 
-        this.currentNote = note;
+        //this.currentNote = note;
         this.currentTime = time;
-        console.log('playing note: ', this.currentNote, 'at time: ', this.currentTime);
+        //console.log('playing note: ', this.currentNote, 'at time: ', this.currentTime);
+
+        const pads = eventManager.getPads(); 
+        
+        if (pads)
+            console.log(pads)
+
+        // if (pad.style.opacity === '1' /* && Number(pad.dataset.part) / 4 === eventManager.counter16th / 4 */)
+        // {
+        //     console.log(Number(pad.dataset.part) / 4, eventManager.counter16th / 4)
+        //     POLYSYNTH.triggerAttackRelease(this.currentNote, '4n', this.currentTime);
+        // }
+        // else
+        // {
+
+        //     eventManager.events.filter(event => { 
+        //         //console.log('pad subdivision: ', subdivision/* , eventManager.counter16th / 4 */)
+                
+        //         if (Number(pad.dataset.part) / 4 === eventManager.counter16th / 4)
+        //         {
+        //             console.log('event at time: ', event);
+        
+        //         }
+            
+        //     });
+        // }
     
     //play note if defined or sequencer pad enabled
+    
         if (this.currentNote !== '')
             POLYSYNTH.triggerAttackRelease(this.currentNote, '4n', this.currentTime);
     }
 
- //-----------------------------------------
+
+    //------------------------------------
+
+
+    public highLightCurrentTrack (currentTrack: (HTMLElement | null)[])
+    {      
+                
+        this.clearTrackHighlight();
+        if (currentTrack[0])
+        {
+            //currentTrack[0].dataset.note = eventManager.currentNote;
+            //console.log(eventManager.mainPart, this.counter16th)
+        }
+        //currentTrack[1].dataset.part
+        //currentTrack[2].dataset.part
+
+        currentTrack.forEach((i: (HTMLElement | null)) => {
+            if (i !== null) 
+               i.style.backgroundColor = '#6291a2';     
+        });
+    }
+
+
+    //----------------------------------------
+
+
+    public clearTrackHighlight () 
+    {
+        const pads = Array.from(document.getElementsByClassName('sequencer-pad'));
+
+        for (let i = 0; i < pads.length + 1; i++)
+        {   
+            const pad = document.getElementById(`sequencer-pad-${i}`);
+            if (pad !== null)
+                pad.style.backgroundColor = '#ffffff';
+        }
+    }
+
+
+ //----------------------------------------- private methods
+
 
     private async startCounter4th(ticks: number): Promise<void>
     { 	
@@ -82,8 +183,7 @@ export class EventManager {
         
     //sample pad pad sequencer
    
-        const pads = Array.from(document.getElementsByClassName('sequencer-pad')),
-
+        const
             track1 = [
                 document.getElementById(`sequencer-pad-1`),
                 document.getElementById(`sequencer-pad-9`),
@@ -131,64 +231,33 @@ export class EventManager {
                 document.getElementById(`sequencer-pad-16`),
                 document.getElementById(`sequencer-pad-24`), 
                 document.getElementById(`sequencer-pad-32`)
-            ],
-
-            highLightCurrentTrack = (currentTrack: (HTMLElement | null)[]) => {      console.log(Tone.Transport.seconds) 
-                
-                clear();
-                if (currentTrack[0])
-                {
-                    currentTrack[0].dataset.note = this.currentNote;
-                    console.log(currentTrack[0].dataset.note)
-                }
-                //currentTrack[1].dataset.part
-                //currentTrack[2].dataset.part
-
-                currentTrack.forEach((i: (HTMLElement | null)) => {
-                    if (i !== null) 
-                       i.style.backgroundColor = '#6291a2';     
-                });
-            },
-
-            clear = () => {
-                for (let i = 0; i < pads.length + 1; i++)
-                {   
-                    const pad = document.getElementById(`sequencer-pad-${i}`);
-                    if (pad !== null)
-                        pad.style.backgroundColor = '#ffffff';
-                }
-            }
+            ];
          
         switch (this.counter)
         {
             case 0: 
-                highLightCurrentTrack(track1);
+                this.highLightCurrentTrack(track1);
                 this.counter = 0; 
             break;
-            case 2: highLightCurrentTrack(track2); break;
-            case 4: highLightCurrentTrack(track3); break;
-            case 6: highLightCurrentTrack(track4); break;
-            case 8: highLightCurrentTrack(track5); break;
-            case 10: highLightCurrentTrack(track6); break;
-            case 12: highLightCurrentTrack(track7); break;
-            case 14: highLightCurrentTrack(track8); break;
+            case 2: this.highLightCurrentTrack(track2); break;
+            case 4: this.highLightCurrentTrack(track3); break;
+            case 6: this.highLightCurrentTrack(track4); break;
+            case 8: this.highLightCurrentTrack(track5); break;
+            case 10: this.highLightCurrentTrack(track6); break;
+            case 12: this.highLightCurrentTrack(track7); break;
+            case 14: this.highLightCurrentTrack(track8); break;
             case 16:  
-                highLightCurrentTrack(track1);
+                this.highLightCurrentTrack(track1);
                 this.counter = 0; 
             break;
         } 
 
         this.counter++;
- 
-        console.log(
-            //'counter: ', this.counter, 
-            //'remainder: ', remainder,
-            //'seconds elapsed: ', Tone.Transport.seconds
-            //'seconds elapsed: ', Math.floor(Tone.Transport.seconds)
-        );
+
     }
 
     //------------------------------------------------
+
 
     private async startCounter16th(ticks: number): Promise<void>
     { 	
@@ -197,12 +266,7 @@ export class EventManager {
         if (this.counter === 0 || this.counter === 16)
             this.counter16th = 0;
 
-
         this.counter16th++;
-
-        console.log(
-            //'counter16th: ', this.counter16th,
-        );
     }
 
     private async startCounter8th(ticks: number): Promise<void>
@@ -212,22 +276,25 @@ export class EventManager {
         if (this.counter === 0 || this.counter === 16)
             this.counter8th = 0;
 
-        this.counter8th++;
+        this.counter8th++;      
+        //console.log(this.counter8th / 4)
 
-        //console.log('counter8th: ', this.counter8th);
     }
     
  
  //-----------------------------------------
+
  
     private scheduledCallback(data: any): void
     {
         //console.log('events: ', this.events /* , 'data: ', data */);
         this.currentTime = 0;
-        this.mainPart.start();
+        if (this.mainPart)
+            this.mainPart.start(0);
     }
  
 //-----------------------------------------
+
  
     private sequenceCallback(): void
     {
