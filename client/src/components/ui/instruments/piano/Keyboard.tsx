@@ -1,8 +1,9 @@
 
 import '../../../../css/Piano.css';
-
+import * as Tone from 'tone';
 import React, { useEffect, useState } from 'react';
 import { MONOSYNTH, POLYSYNTH } from '../../../synths/main';
+import { eventManager } from './sequencer/eventManager';
 import VISUALIZATION from './display';
 
 //import 'react-piano/dist/styles.css';
@@ -14,6 +15,8 @@ const { Piano, KeyboardShortcuts, MidiNumbers } = require('react-piano'),
 
 //midi 
 	require('webmidi');
+
+
 
 
 //--------------------------------- PIANO UI
@@ -85,15 +88,27 @@ export function KEYBOARD ()
 	});
 
 
-
 //play note
+
   	const playNote = (message: number, duration: number | string) => { 
+
+		VISUALIZATION.init = true; 
+
 		const key = document.getElementById(`key${message}`); 
 		key?.classList.add('.ReactPiano__KeyActive');
 		key?.classList.remove('.ReactPiano__Key--natural');
+
 		//console.log('midi num: ', message, 'to note: ', midiToNote(message));
-		POLYSYNTH.triggerAttackRelease(`${midiToNote(message * octave)}`, duration);
-		VISUALIZATION.init = true;  
+
+		let note = midiToNote(message * octave),
+			time = Tone.Transport.seconds;
+
+		eventManager.events.push([time, note]);
+		eventManager.mainPart = new Tone.Part(eventManager.currentPart, eventManager.events);
+
+	//play note
+		POLYSYNTH.triggerAttackRelease(`${note}`, duration);
+
 	},
 
 	assignMidiToKeys = () => {

@@ -1,27 +1,41 @@
 import * as Tone from 'tone';
 import { MONOSYNTH, POLYSYNTH } from '../../../../synths/main';
 
+
 export class EventManager {
 
-    private counter: number
-    private keySigValueNum: number
-    private currentTime: number
-    private mainPart: Tone.Part
-
+    public counter: number
+    public counter16th: number
+    public counter8th: number
+    public events: any[] = []
+    public mainPart: Tone.Part | any
     public sequenceArray: Tone.Sequence
     public mainLoop: Tone.Loop
+    public subLoop16th: Tone.Loop
+    public subLoop8th: Tone.Loop
 
+    private keySigValueNum: number
+    private currentNote: string = ''
+    private currentTime: number = 0
 
     constructor()
     {
 	
-        this.counter = 0; 
-    
         this.keySigValueNum = 1;
+        this.counter = 0; 
+        this.counter8th = 0;
+        this.counter16th = 0;
         this.currentTime = Tone.Transport.getSecondsAtTime(Tone.Transport.position);
         this.sequenceArray = new Tone.Sequence((time, note) => this.sequenceCallback, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], '4n');
-        this.mainLoop = new Tone.Loop((time: number)=> this.startCounter(time), '4n'); //start counter
-        this.mainPart = new Tone.Part(this.currentPart, [[0, 'E2'], ['0:5', 'G3'], ['0:3:2', ' B2']]);
+
+    //counters
+        this.mainLoop = new Tone.Loop((time: number) => this.startCounter4th(time), '4n');
+        this.subLoop8th = new Tone.Loop((time: number) => this.startCounter8th(time), '8n');
+        this.subLoop16th = new Tone.Loop((time: number) => this.startCounter16th(time), '16n'); 
+      
+
+    ////temp fixed loop
+        //let events: any = [[0, 'E2'], ['0:3:2', ' B2'], ['0:5', 'G3']]
 
 
         const gainNode = Tone.context.createGain(),
@@ -41,9 +55,23 @@ export class EventManager {
    
     } 
 
+//-----------------------------------------
+ 
+    public currentPart(time: number, note: any): void
+    {     
+
+        this.currentNote = note;
+        this.currentTime = time;
+        console.log('playing note: ', this.currentNote, 'at time: ', this.currentTime);
+    
+    //play note if defined or sequencer pad enabled
+        if (this.currentNote !== '')
+            POLYSYNTH.triggerAttackRelease(this.currentNote, '4n', this.currentTime);
+    }
+
  //-----------------------------------------
 
-    private async startCounter(ticks: number): Promise<void>
+    private async startCounter4th(ticks: number): Promise<void>
     { 	
         ticks = Tone.Transport.ticks;
 
@@ -105,12 +133,20 @@ export class EventManager {
                 document.getElementById(`sequencer-pad-32`)
             ],
 
-            highLightCurrentTrack = (currentTrack: (HTMLElement | null)[]) => {
+            highLightCurrentTrack = (currentTrack: (HTMLElement | null)[]) => {      console.log(Tone.Transport.seconds) 
                 
                 clear();
+                if (currentTrack[0])
+                {
+                    currentTrack[0].dataset.note = this.currentNote;
+                    console.log(currentTrack[0].dataset.note)
+                }
+                //currentTrack[1].dataset.part
+                //currentTrack[2].dataset.part
+
                 currentTrack.forEach((i: (HTMLElement | null)) => {
-                    if (i !== null)
-                        i.style.backgroundColor = '#6291a2';
+                    if (i !== null) 
+                       i.style.backgroundColor = '#6291a2';     
                 });
             },
 
@@ -145,26 +181,50 @@ export class EventManager {
         this.counter++;
  
         console.log(
-            'counter: ', this.counter, 
-            'remainder: ', remainder,
-            'seconds elapsed: ', Math.floor(Tone.Transport.seconds)
+            //'counter: ', this.counter, 
+            //'remainder: ', remainder,
+            //'seconds elapsed: ', Tone.Transport.seconds
+            //'seconds elapsed: ', Math.floor(Tone.Transport.seconds)
         );
     }
-    
- //-----------------------------------------
- 
-    private currentPart(time: number, note: any): void
-    {     
-        console.log('playing note: ', note);
-        MONOSYNTH.triggerAttackRelease(note, '4n', time);
+
+    //------------------------------------------------
+
+    private async startCounter16th(ticks: number): Promise<void>
+    { 	
+        ticks = Tone.Transport.ticks;
+
+        if (this.counter === 0 || this.counter === 16)
+            this.counter16th = 0;
+
+
+        this.counter16th++;
+
+        console.log(
+            //'counter16th: ', this.counter16th,
+        );
     }
+
+    private async startCounter8th(ticks: number): Promise<void>
+    { 	
+        ticks = Tone.Transport.ticks;
+
+        if (this.counter === 0 || this.counter === 16)
+            this.counter8th = 0;
+
+        this.counter8th++;
+
+        //console.log('counter8th: ', this.counter8th);
+    }
+    
  
  //-----------------------------------------
  
     private scheduledCallback(data: any): void
     {
+        //console.log('events: ', this.events /* , 'data: ', data */);
+        this.currentTime = 0;
         this.mainPart.start();
-        console.log('scheduled reset at 0:0:0', data);
     }
  
 //-----------------------------------------
@@ -197,7 +257,7 @@ export class EventManager {
 
 }
 
-
+export const eventManager = new EventManager();
 
 
 // let timeline = new Tone.Timeline(),

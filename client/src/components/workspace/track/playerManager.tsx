@@ -1,8 +1,6 @@
 import * as Tone from 'tone';
 import { useEffect } from "react";
-import { EventManager } from '../../ui/instruments/piano/sequencer/eventManager';
-
-const eventManager = new EventManager();
+import { eventManager } from '../../ui/instruments/piano/sequencer/eventManager'
 
 let init = false;
 
@@ -18,12 +16,16 @@ export function PlayerManager()
             Tone.Transport.start();
             eventManager.sequenceArray.start(0);
             eventManager.mainLoop.start(0);
+            eventManager.subLoop16th.start(0);
+            eventManager.subLoop8th.start(0);
         } 
         else
         {
             Tone.Transport.stop();
             eventManager.sequenceArray.stop(0);
             eventManager.mainLoop.stop(0);
+            eventManager.subLoop16th.stop(0);
+            eventManager.subLoop8th.stop(0);
         }
     }   
     useEffect(()=>{
