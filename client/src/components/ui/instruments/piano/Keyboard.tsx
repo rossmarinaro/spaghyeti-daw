@@ -36,62 +36,11 @@ export function KEYBOARD ()
 			firstNote: firstNote,
 			lastNote: lastNote,
 			keyboardConfig: KeyboardShortcuts.HOME_ROW,
-		});
+		}),
 
+	//play note
 
-	useEffect(()=>{ 
-
-		navigator.requestMIDIAccess().then((access: WebMidi.MIDIAccess) => {
-			
-			console.log('MIDI ACCESS: ', access);
-
-			const debugEl = document.getElementById('debug');
-
-			function connectToDevice(device: any)
-			{
-				console.log('connecting to device: ', device);
-				assignMidiToKeys();
-					
-				device.onmidimessage = function(message: WebMidi.MIDIMessageEvent)
-				{
-					const [command, num, velocity]: any = message.data;
-					if (debugEl !== null)
-					{
-						if (command === 248) //up
-							return;
-
-						playNote(num, '16n');
-					}
-				}
-			}
-			function updateDeviceList(inputs: any)
-			{
-				inputs.map((e: any) => {
-					const el = document.getElementById('midi-device');
-					if (el !== null)
-					{
-						el.innerText = `${e.name} (${e.manufacturer})`;
-						el.addEventListener('click', connectToDevice.bind(null, e));
-					}
-					return el;
-				});
-			}			
-			updateDeviceList(Array.from(access.inputs.values()));
-
-			access.onstatechange = function(e: any){
-				updateDeviceList(Array.from(this.inputs.values()));
-			}
-
-			
-		
-		});
-
-	});
-
-
-//play note
-
-  	const playNote = (message: number, duration: number | string) => { 
+	playNote = (message: number, duration: number | string) => { 
 
 		VISUALIZATION.init = true; 
 
@@ -132,6 +81,57 @@ export function KEYBOARD ()
 			pianoKeys[i].setAttribute('id', `key${Number(i + 48)}`); 
 		
 	}
+
+
+	useEffect(()=>{ 
+
+		navigator.requestMIDIAccess().then((access: WebMidi.MIDIAccess) => {
+			
+			console.log('MIDI ACCESS: ', access);
+
+			function connectToDevice(device: any)
+			{
+				console.log('connecting to device: ', device);
+				assignMidiToKeys();
+					
+				device.onmidimessage = function(message: WebMidi.MIDIMessageEvent)
+				{
+					const [command, num, velocity]: any = message.data;
+
+					if (command === 248) //up
+					{
+						VISUALIZATION.init = false;
+						return;
+					}
+
+					playNote(num, '16n');
+				}
+			}
+			function updateDeviceList(inputs: any)
+			{
+				inputs.map((e: any) => {
+					const el = document.getElementById('midi-device');
+					if (el !== null)
+					{
+						el.innerText = `${e.name} (${e.manufacturer})`;
+						el.addEventListener('click', connectToDevice.bind(null, e));
+
+					//auto connect to midi device
+						connectToDevice(e);
+					}
+					return el;
+				});
+			}			
+			updateDeviceList(Array.from(access.inputs.values()));
+
+			access.onstatechange = function(e: any){
+				updateDeviceList(Array.from(this.inputs.values()));
+			}			
+		
+		});
+
+	});
+
 
 	return ( 
 			<div id="piano-ui">
