@@ -28,7 +28,10 @@ export class SynthManager {
     public static Synth: any = new Tone.PolySynth(SynthManager.options).toDestination();
 
     public static update (): void
-    { SynthManager.Synth=null
+    { 
+        
+        SynthManager.Synth = null;
+        
         const options = {
             
             volume: SynthManager.options.volume,
