@@ -1,50 +1,60 @@
 import { useEffect } from 'react';
-import { SYNTHS } from './synthManager';
+import { SynthManager } from './synthManager';
 
-let sounds: Element[] = [];
+let sounds: Element[] = [],
+    init = false;
 
-export function SoundManager()
-{
+const swapSound = async (e: Event, selection: any) => {
 
-    const swapSound = async (e: Event, selection: any) => {
+    e.preventDefault();
 
-        e.preventDefault();
+    const 
+        off = 'rgb(109, 104, 118)',
+        on = 'rgb(64, 62, 68)',
+        id = selection.getAttribute('id'),
 
-        const 
-            off = 'rgb(109, 104, 118)',
-            on = 'rgb(64, 62, 68)',
-            id = selection.getAttribute('id'),
+    checkOption = async ()=> {
 
-        checkOption = async ()=> {
+        switch (id)
+        {
 
-            switch (id)
-            {
-
-                case 'sound-bank-square': 
-                    return 'square';
-                case 'sound-bank-saw': 
-                    return 'sawtooth';
-                case 'sound-bank-sine': 
-                    return 'sine';
-                case 'sound-bank-triangle': 
-                    return 'triangle';
-            }
-        },
-
-        option = await checkOption();
-console.log(SYNTHS.current)
-        SYNTHS.current.set({oscillator: {type: option}});
-
-        selection.style.backgroundColor = selection.style.backgroundColor === on ? off : on;
-
-        sounds.forEach((element: Element) => {
-            if (id !== element.id)
-                element.setAttribute('style', 'background-color: off');
-        })
-
+            case 'sound-bank-square': 
+                SynthManager.options.oscillator.type = 'square';
+            break;
+            case 'sound-bank-saw': 
+                SynthManager.options.oscillator.type = 'sawtooth';
+            break;
+            case 'sound-bank-sine': 
+                SynthManager.options.oscillator.type = 'sine';
+            break;
+            case 'sound-bank-triangle': 
+                SynthManager.options.oscillator.type = 'triangle';
+            break;
+        } 
     }
 
-    useEffect(()=>{
+    await checkOption();
+
+    SynthManager.update();
+
+    selection.style.backgroundColor = selection.style.backgroundColor === on ? off : on;
+
+    sounds.forEach((element: Element) => {
+        if (id !== element.id)
+            element.setAttribute('style', 'background-color: off');
+    });
+
+}
+
+export function SoundbankUI()
+{
+
+    useEffect(()=> {
+
+        if (init) 
+            return;
+
+        init = true;
 
         sounds = Array.from(document.getElementsByClassName('sound-bank-item'));
 

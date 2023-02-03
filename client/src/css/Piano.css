@@ -143,13 +143,13 @@
     width: 50%
   }
 
-  .sound-bank-item {
+  .sound-bank-item, .synth-bank-item{
     background-color: rgb(64, 62, 68);
     margin: auto;
     width: 35%;
   }
 
-  .sound-bank-item p{
+  .sound-bank-item p, .synth-bank-item p{
     margin: auto;
 
   }

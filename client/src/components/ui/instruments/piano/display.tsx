@@ -3,7 +3,27 @@ import Phaser from 'phaser';
 import { Sequencer } from './sequencer/sequencer';
 
 
-const VISUALIZATION = { init: false}
+const VISUALIZATION = { init: false};
+
+export class Main extends Phaser.Scene {
+    
+    constructor(){
+        super('Main');
+    }
+    preload()
+    {
+
+    }
+    create()
+    {
+                
+        
+    }
+    update(time: number, delta: number): void
+    {
+        this.cameras.main.setBackgroundColor(VISUALIZATION.init ? 0xff0000 : 0x000000);
+    }
+}
 
 export class Display extends React.Component
 {
@@ -16,24 +36,7 @@ export class Display extends React.Component
 
         this.initialized = true;
 
-        class Main extends Phaser.Scene{
-            constructor(){
-                super('Main');
-            }
-            preload()
-            {
-
-            }
-            create()
-            {
-                        
-                
-            }
-            update(time: number, delta: number): void
-            {
-                this.cameras.main.setBackgroundColor(VISUALIZATION.init ? 0xff0000 : 0x000000);
-            }
-        }
+     
         const config = {
             type: Phaser.AUTO,
             backgroundColor: '#ccc',

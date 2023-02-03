@@ -1,6 +1,6 @@
 import { OptionsManager } from './optionsManager';
-import { SoundManager } from './soundManager';
-import { SynthManager } from './synthManager';
+import { SoundbankUI } from './soundManager';
+import { SynthbankUI } from './synthManager';
 import { KEYBOARD } from './Keyboard';
 import { Display } from './display';
 import { ModuleRack } from './modules/rack';
@@ -14,8 +14,8 @@ export function PIANO()
             <Midi />
             <Display />
             <OptionsManager />
-            <SoundManager />     
-            <SynthManager />  
+            <SoundbankUI />     
+            <SynthbankUI />  
             <ModuleRack /> 
             <KEYBOARD />
         </div>

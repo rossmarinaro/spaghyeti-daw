@@ -1,5 +1,5 @@
 import * as Tone from 'tone';
-import { SYNTHS } from '../synthManager';
+import { SynthManager } from '../synthManager';
 
 
 export class EventManager {
@@ -72,7 +72,7 @@ export class EventManager {
                 if (eventManager.counter8th === padNum)
                 {
                     console.log(eventManager.counter8th, padNum);
-                    SYNTHS.current.triggerAttackRelease(this.currentNote, '4n', this.currentTime);
+                    SynthManager.Synth.triggerAttackRelease(this.currentNote, '4n', this.currentTime);
                 }
                 //else 
                     //console.log('pads: ', pads);

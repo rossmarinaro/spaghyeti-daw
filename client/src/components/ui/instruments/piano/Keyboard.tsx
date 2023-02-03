@@ -1,11 +1,11 @@
 
 import '../../../../css/Piano.css';
 import * as Tone from 'tone';
-import React, { useEffect, useState } from 'react';
-import { SYNTHS } from './synthManager';
+import { useEffect } from 'react';
+import { SynthManager } from './synthManager';
 import { eventManager } from './sequencer/eventManager';
-import VISUALIZATION from './display';
 import { playerManager } from '../../../workspace/track/playerManager';
+import VISUALIZATION from './display';
 
 //import 'react-piano/dist/styles.css';
 
@@ -61,7 +61,7 @@ export function KEYBOARD ()
 
 	//play note
 	
-		SYNTHS.current.triggerAttackRelease(`${note}`, duration);
+		SynthManager.Synth.triggerAttackRelease(`${note}`, duration);
 
 	},
 
@@ -141,7 +141,7 @@ export function KEYBOARD ()
 				noteRange={{ first: firstNote, last: lastNote }}
 				playNote={(midiNumber: number) => playNote(midiNumber, Infinity)}
 				stopNote={(midiNumber: number) => {
-					SYNTHS.current.releaseAll();
+					SynthManager.Synth.releaseAll();
 					VISUALIZATION.init = false;
 				}}  
 				/* width={window.innerWidth / 2} */

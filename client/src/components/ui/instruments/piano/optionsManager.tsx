@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { SYNTHS } from './synthManager';
+import { SynthManager } from './synthManager';
 
 
 
@@ -11,9 +11,15 @@ export function OptionsManager()
 
         switch(meter)
         {
-            case 'partials': SYNTHS.current.set({ oscillator : {partialCount: e.target.value} }); break;
-            case 'frequency': SYNTHS.current.set({ detune: e.target.value }); break;
-            case 'env': SYNTHS.current.set({ envelope: {attack: e.target.value } }); break;
+            case 'partials': 
+                SynthManager.Synth.set({ oscillator : {partialCount: e.target.value} }); 
+            break;
+            case 'frequency': 
+                SynthManager.Synth.set({ detune: e.target.value }); 
+            break;
+            case 'env': 
+                SynthManager.Synth.set({ envelope: {attack: e.target.value } }); 
+            break;
         }
     }
 

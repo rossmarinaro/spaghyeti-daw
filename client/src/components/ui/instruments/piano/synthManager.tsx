@@ -17,95 +17,92 @@ import { useEffect } from 'react';
 //     envelope: {attack: 0.1}, 
 // });
 
-let synths: Element[] = [];
+export class SynthManager {
 
-export const SYNTHS: any = {
-    current: null,
-    mono : new Tone.PolySynth().toDestination(),
-    duo : new Tone.PolySynth().toDestination(),
-    am : new Tone.PolySynth().toDestination(),
-    fm : new Tone.PolySynth().toDestination()
-};
+    public static synths: Element[] = []
+    public static init: boolean = false
 
-SYNTHS.mono.set({  
-    polyphony : 6, 
-    detune : 0, 
-    volume : -7, 
-    voice : Tone.MonoSynth, 
-    oscillator : {type: 'square'}
-});
+    public static options: { volume: number, voice: any, oscillator: { type: string }} = 
+        { volume: 1, voice: Tone.MonoSynth, oscillator: { type: 'square' }}
 
-SYNTHS.duo.set({  
-    polyphony : 6, 
-    detune : 0, 
-    volume : 0, 
-    voice : Tone.DuoSynth, 
-    oscillator : {type: 'square'}
-});
+    public static Synth: any = new Tone.PolySynth(SynthManager.options).toDestination();
 
-SYNTHS.am.set({  
-    polyphony : 6, 
-    detune : 0, 
-    volume : -7, 
-    voice : Tone.AMSynth, 
-    oscillator : {type: 'square'}
-});
+    public static update (): void
+    { SynthManager.Synth=null
+        const options = {
+            
+            volume: SynthManager.options.volume,
+            voice: SynthManager.options.voice,
+            oscillator: { type: SynthManager.options.oscillator.type }
 
-SYNTHS.fm.set({  
-    polyphony : 6, 
-    detune : 0, 
-    volume : 0, 
-    voice : Tone.FMSynth, 
-    oscillator : {type: 'square'}
-});
+        }
 
-//set default synth
+        SynthManager.Synth = new Tone.PolySynth(options).toDestination();
+    }
 
-SYNTHS.current = SYNTHS.mono;
-
-console.log(SYNTHS.current)
-export function SynthManager()
-{
-
-    const swapSynth = async (e: Event, selection: any) => {
+    public static async swapSynth (e: Event, selection: any) 
+    {            
 
         e.preventDefault();
-
+    
         const 
             off = 'rgb(109, 104, 118)',
             on = 'rgb(64, 62, 68)',
             id = selection.getAttribute('id'),
 
-        checkOption = async ()=> {
+        checkOption = async () => {
 
             switch (id)
             {
-                case 'sound-bank-mono': 
-                    return SYNTHS.mono;
-                case 'sound-bank-duo': 
-                    return SYNTHS.duo;
-                case 'sound-bank-am': 
-                    return SYNTHS.am;
-                case 'sound-bank-fm': 
-                    return SYNTHS.fm;
-
+                case 'synth-bank-mono': 
+                    SynthManager.options.volume = 0;
+                    SynthManager.options.voice = Tone.MonoSynth;
+                break;
+                case 'synth-bank-duo': 
+                    SynthManager.options.volume = 0;
+                    SynthManager.options.voice = Tone.DuoSynth;
+                break; 
+                case 'synth-bank-am': 
+                    SynthManager.options.volume = 2;
+                    SynthManager.options.voice = Tone.AMSynth;
+                break;
+                case 'synth-bank-fm': 
+                    SynthManager.options.volume = 0;
+                    SynthManager.options.voice = Tone.FMSynth;
+                break;
             }
-        },
+        }
+    
+        await checkOption();
 
-        option = await checkOption();
-
-        if (option)
-            SYNTHS.current = option;
-            
+        SynthManager.update();
+    
         selection.style.backgroundColor = selection.style.backgroundColor === on ? off : on;
-
+    
+        SynthManager.synths.forEach((element: Element) => {
+            if (id !== element.id)
+                element.setAttribute('style', 'background-color: off');
+        });
+    
     }
+}
 
-    useEffect(()=>{
+SynthManager.Synth.set({oscillator : {type: 'square'}});
 
-        synths = Array.from(document.getElementsByClassName('sound-bank-item'));
 
-        synths.forEach((i: Element) => i.addEventListener('click', (e: any) => swapSynth(e, i)));
+export function SynthbankUI()
+{
+
+    useEffect(()=> { 
+        
+        if (SynthManager.init) 
+            return;
+
+        SynthManager.init = true;
+
+        SynthManager.synths = Array.from(document.getElementsByClassName('synth-bank-item'));
+
+        SynthManager.synths.forEach((i: Element) => i.addEventListener('click', (e: any) => SynthManager.swapSynth(e, i)));
 
     });
 
@@ -113,10 +110,10 @@ export function SynthManager()
     return (
 
         <div className="sound-bank" >
-            <div id="synth-bank-mono" className="bordered sound-bank-item"><p>MONO</p></div>
-            <div id="synth-bank-duo" className="bordered sound-bank-item"><p>DUO</p></div>
-            <div id="synth-bank-am" className="bordered sound-bank-item"><p>AM</p></div>
-            <div id="synth-bank-fm" className="bordered sound-bank-item"><p>FM</p></div>
+            <div id="synth-bank-mono" className="bordered synth-bank-item"><p>MONO</p></div>
+            <div id="synth-bank-duo" className="bordered synth-bank-item"><p>DUO</p></div>
+            <div id="synth-bank-am" className="bordered synth-bank-item"><p>AM</p></div>
+            <div id="synth-bank-fm" className="bordered synth-bank-item"><p>FM</p></div>
         </div>
     );
 }
