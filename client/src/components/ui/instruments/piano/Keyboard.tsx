@@ -2,7 +2,7 @@
 import '../../../../css/Piano.css';
 import * as Tone from 'tone';
 import React, { useEffect, useState } from 'react';
-import { SYNTHS } from '../../../synths/main';
+import { SYNTHS } from './synthManager';
 import { eventManager } from './sequencer/eventManager';
 import VISUALIZATION from './display';
 import { playerManager } from '../../../workspace/track/playerManager';

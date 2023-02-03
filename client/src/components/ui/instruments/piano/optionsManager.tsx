@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { SYNTHS } from '../../../synths/main';
+import { SYNTHS } from './synthManager';
 
 
 
@@ -19,14 +19,13 @@ export function OptionsManager()
 
     useEffect(()=>{
 
-        const partialsMeter = document.getElementById('partials-meter-level');
-        partialsMeter?.addEventListener('change', e => getSliderVal(e, 'partials'));
+        const partialsMeter = document.getElementById('partials-meter-level'),
+              frequencyMeter = document.getElementById('frequency-meter-level'),
+              envMeter = document.getElementById('env-meter-level');
 
-        const frequencyMeter = document.getElementById('frequency-meter-level');
-        frequencyMeter?.addEventListener('change', e => getSliderVal(e, 'frequency'));
-
-        const envMeter = document.getElementById('env-meter-level');
         envMeter?.addEventListener('change', e => getSliderVal(e, 'env'));
+        partialsMeter?.addEventListener('change', e => getSliderVal(e, 'partials'));
+        frequencyMeter?.addEventListener('change', e => getSliderVal(e, 'frequency'));
 
     });
 

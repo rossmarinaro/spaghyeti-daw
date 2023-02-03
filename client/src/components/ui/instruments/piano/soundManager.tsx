@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { SYNTHS } from '../../../synths/main';
+import { SYNTHS } from './synthManager';
 
 let sounds: Element[] = [];
 
@@ -19,14 +19,6 @@ export function SoundManager()
 
             switch (id)
             {
-                case 'sound-bank-mono': 
-                    return SYNTHS.mono;
-                case 'sound-bank-duo': 
-                    return SYNTHS.duo;
-                case 'sound-bank-am': 
-                    return SYNTHS.am;
-                case 'sound-bank-fm': 
-                    return SYNTHS.fm;
 
                 case 'sound-bank-square': 
                     return 'square';
@@ -40,10 +32,8 @@ export function SoundManager()
         },
 
         option = await checkOption();
-
-        option instanceof String ?
-            SYNTHS.current.options.oscillator.type = option :
-            SYNTHS.current = option;
+console.log(SYNTHS.current)
+        SYNTHS.current.set({oscillator: {type: option}});
 
         selection.style.backgroundColor = selection.style.backgroundColor === on ? off : on;
 
@@ -65,19 +55,12 @@ export function SoundManager()
 
     return (
 
-        <>
-            <div className="sound-bank" >
-                <div id="sound-bank-square" className="bordered sound-bank-item"><p>SQR</p></div>
-                <div id="sound-bank-saw" className="bordered sound-bank-item"><p>SAW</p></div>
-                <div id="sound-bank-sine" className="bordered sound-bank-item"><p>SIN</p></div>
-                <div id="sound-bank-triangle" className="bordered sound-bank-item"><p>TRI</p></div>
-            </div>
-            <div className="sound-bank" >
-                <div id="sound-bank-mono" className="bordered sound-bank-item"><p>MONO</p></div>
-                <div id="sound-bank-duo" className="bordered sound-bank-item"><p>DUO</p></div>
-                <div id="sound-bank-am" className="bordered sound-bank-item"><p>AM</p></div>
-                <div id="sound-bank-fm" className="bordered sound-bank-item"><p>FM</p></div>
-            </div>
-        </>
+        <div className="sound-bank" >
+            <div id="sound-bank-square" className="bordered sound-bank-item"><p>SQR</p></div>
+            <div id="sound-bank-saw" className="bordered sound-bank-item"><p>SAW</p></div>
+            <div id="sound-bank-sine" className="bordered sound-bank-item"><p>SIN</p></div>
+            <div id="sound-bank-triangle" className="bordered sound-bank-item"><p>TRI</p></div>
+        </div>
+
     );
 }
