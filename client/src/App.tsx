@@ -61,3 +61,31 @@ function App() {
 export default App;
 
 
+       /* 
+       const useCallbackRef = (callback) => {
+  const callbackRef = React.useRef(callback);
+  React.useLayoutEffect(() => {
+    callbackRef.current = callback;
+  }, [callback]);
+  return callbackRef;
+};
+
+export function useFetch({ url, onSuccess }) {
+  const [data, setData] = useState({});
+
+  const savedOnSuccess = useCallbackRef(onSuccess);
+
+  useEffect(() => {
+    const fun = async () => {
+      const getData = await fetch(url),
+        parsed = await getData.json();
+      savedOnSuccess.current();
+      setData(parsed);
+    };
+    fun();
+  }, [url, savedOnSuccess]);
+
+  return data;
+}
+       
+       */

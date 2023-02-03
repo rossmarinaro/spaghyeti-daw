@@ -2,7 +2,7 @@
 import '../../../../css/Piano.css';
 import * as Tone from 'tone';
 import React, { useEffect, useState } from 'react';
-import { MONOSYNTH, POLYSYNTH } from '../../../synths/main';
+import { SYNTHS } from '../../../synths/main';
 import { eventManager } from './sequencer/eventManager';
 import VISUALIZATION from './display';
 import { playerManager } from '../../../workspace/track/playerManager';
@@ -18,12 +18,10 @@ const { Piano, KeyboardShortcuts, MidiNumbers } = require('react-piano'),
 	require('webmidi');
 
 
-
-
 //--------------------------------- PIANO UI
 
 
-export function KEYBOARD ()   
+export function KEYBOARD ()
 {	
 	let 
 		initialized = false,
@@ -40,7 +38,7 @@ export function KEYBOARD ()
 
 	//play note
 
-	playNote = (message: number, duration: number | string) => { 
+	playNote = (message: number, duration: number | string): void => { 
 
 		VISUALIZATION.init = true; 
 
@@ -62,7 +60,8 @@ export function KEYBOARD ()
 		}
 
 	//play note
-		POLYSYNTH.triggerAttackRelease(`${note}`, duration);
+	
+		SYNTHS.current.triggerAttackRelease(`${note}`, duration);
 
 	},
 
@@ -110,7 +109,9 @@ export function KEYBOARD ()
 			function updateDeviceList(inputs: any)
 			{
 				inputs.map((e: any) => {
+
 					const el = document.getElementById('midi-device');
+
 					if (el !== null)
 					{
 						el.innerText = `${e.name} (${e.manufacturer})`;
@@ -140,7 +141,7 @@ export function KEYBOARD ()
 				noteRange={{ first: firstNote, last: lastNote }}
 				playNote={(midiNumber: number) => playNote(midiNumber, Infinity)}
 				stopNote={(midiNumber: number) => {
-					POLYSYNTH.releaseAll();
+					SYNTHS.current.releaseAll();
 					VISUALIZATION.init = false;
 				}}  
 				/* width={window.innerWidth / 2} */

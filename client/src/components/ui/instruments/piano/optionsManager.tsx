@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { MONOSYNTH, POLYSYNTH } from '../../../synths/main';
+import { SYNTHS } from '../../../synths/main';
 
 
 
@@ -11,9 +11,9 @@ export function OptionsManager()
 
         switch(meter)
         {
-            case 'partials': POLYSYNTH.set({ oscillator : {partialCount: e.target.value} }); break;
-            case 'frequency': POLYSYNTH.set({ detune: e.target.value }); break;
-            case 'env': POLYSYNTH.set({ envelope: {attack: e.target.value } }); break;
+            case 'partials': SYNTHS.current.set({ oscillator : {partialCount: e.target.value} }); break;
+            case 'frequency': SYNTHS.current.set({ detune: e.target.value }); break;
+            case 'env': SYNTHS.current.set({ envelope: {attack: e.target.value } }); break;
         }
     }
 

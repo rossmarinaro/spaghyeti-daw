@@ -1,25 +1,33 @@
 import { useEffect } from 'react';
-import * as Tone from 'tone';
+import { SYNTHS } from '../../../synths/main';
 
-import { MONOSYNTH, POLYSYNTH } from '../../../synths/main';
+let sounds: Element[] = [];
 
 export function SoundManager()
 {
-    let sounds: Element[] = [];
 
-    const swapSound = async (e: any, option: any) => {
+    const swapSound = async (e: Event, selection: any) => {
 
         e.preventDefault();
 
         const 
-        off = 'rgb(109, 104, 118)',
-        on = 'rgb(64, 62, 68)',
-        id = option.getAttribute('id'),
+            off = 'rgb(109, 104, 118)',
+            on = 'rgb(64, 62, 68)',
+            id = selection.getAttribute('id'),
 
-        check = async ()=>{
+        checkOption = async ()=> {
 
             switch (id)
             {
+                case 'sound-bank-mono': 
+                    return SYNTHS.mono;
+                case 'sound-bank-duo': 
+                    return SYNTHS.duo;
+                case 'sound-bank-am': 
+                    return SYNTHS.am;
+                case 'sound-bank-fm': 
+                    return SYNTHS.fm;
+
                 case 'sound-bank-square': 
                     return 'square';
                 case 'sound-bank-saw': 
@@ -31,11 +39,13 @@ export function SoundManager()
             }
         },
 
-        sound = await check();
+        option = await checkOption();
 
-        POLYSYNTH.set({oscillator: { type: sound}});
+        option instanceof String ?
+            SYNTHS.current.options.oscillator.type = option :
+            SYNTHS.current = option;
 
-        option.style.backgroundColor = option.style.backgroundColor === on ? off : on;
+        selection.style.backgroundColor = selection.style.backgroundColor === on ? off : on;
 
         sounds.forEach((element: Element) => {
             if (id !== element.id)
@@ -54,11 +64,20 @@ export function SoundManager()
 
 
     return (
-        <div className="sound-bank" >
-           <div id="sound-bank-square" className="bordered sound-bank-item"><p>SQR</p></div>
-           <div id="sound-bank-saw" className="bordered sound-bank-item"><p>SAW</p></div>
-           <div id="sound-bank-sine" className="bordered sound-bank-item"><p>SIN</p></div>
-           <div id="sound-bank-triangle" className="bordered sound-bank-item"><p>TRI</p></div>
-        </div>
+
+        <>
+            <div className="sound-bank" >
+                <div id="sound-bank-square" className="bordered sound-bank-item"><p>SQR</p></div>
+                <div id="sound-bank-saw" className="bordered sound-bank-item"><p>SAW</p></div>
+                <div id="sound-bank-sine" className="bordered sound-bank-item"><p>SIN</p></div>
+                <div id="sound-bank-triangle" className="bordered sound-bank-item"><p>TRI</p></div>
+            </div>
+            <div className="sound-bank" >
+                <div id="sound-bank-mono" className="bordered sound-bank-item"><p>MONO</p></div>
+                <div id="sound-bank-duo" className="bordered sound-bank-item"><p>DUO</p></div>
+                <div id="sound-bank-am" className="bordered sound-bank-item"><p>AM</p></div>
+                <div id="sound-bank-fm" className="bordered sound-bank-item"><p>FM</p></div>
+            </div>
+        </>
     );
 }

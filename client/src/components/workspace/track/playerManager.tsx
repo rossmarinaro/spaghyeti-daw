@@ -20,7 +20,11 @@ export function PlayerRack()
 
         switch(action)
         {
-            case 'record': playerManager.recording = true; break; 
+            case 'record': 
+            
+                playerManager.recording = true; 
+                
+            break; 
 
             case 'start': 
 
@@ -70,7 +74,7 @@ export function PlayerRack()
         }
    
     }   
-    useEffect(()=>{
+    useEffect(()=> {
 
         if (init)
             return;
@@ -88,12 +92,13 @@ export function PlayerRack()
 
         const pauseSeq = document.getElementById('pause-seq');
         pauseSeq?.addEventListener('click', () => update('pause'));
+
     });
 
 
     return (
 
-        <form action="" onSubmit={handleActions}>
+        <form action="" onSubmit={ handleActions }>
             <input className="form-input" id="record-seq" type="submit" value="record" name="recordButton"/>
             <input className="form-input" id="start-seq" type="submit" value="play" name="playButton"/>
             <input className="form-input" id="pause-seq" type="submit" value="pause" name="pauseButton"/>

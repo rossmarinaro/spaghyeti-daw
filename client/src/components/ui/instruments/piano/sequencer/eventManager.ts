@@ -1,5 +1,5 @@
 import * as Tone from 'tone';
-import { MONOSYNTH, POLYSYNTH } from '../../../../synths/main';
+import { SYNTHS } from '../../../../synths/main';
 
 
 export class EventManager {
@@ -72,7 +72,7 @@ export class EventManager {
                 if (eventManager.counter8th === padNum)
                 {
                     console.log(eventManager.counter8th, padNum);
-                    POLYSYNTH.triggerAttackRelease(this.currentNote, '4n', this.currentTime);
+                    SYNTHS.current.triggerAttackRelease(this.currentNote, '4n', this.currentTime);
                 }
                 //else 
                     //console.log('pads: ', pads);
