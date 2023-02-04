@@ -95,7 +95,7 @@ export class EventManager {
     //------------------------------------
 
 
-    public highLightCurrentTrack (currentTrack: (HTMLElement | null)[])
+    public highLightCurrentTrack (currentTrack: (HTMLElement | null)[]): void
     {      
                 
         this.clearTrackHighlight();
@@ -110,7 +110,7 @@ export class EventManager {
     //----------------------------------------
 
 
-    public clearTrackHighlight () 
+    public clearTrackHighlight (): void
     {
         const pads = Array.from(document.getElementsByClassName('sequencer-pad'));
 

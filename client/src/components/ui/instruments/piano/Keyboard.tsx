@@ -60,8 +60,9 @@ export function KEYBOARD ()
 		}
 
 	//play note
-	
-		SynthManager.Synth.triggerAttackRelease(`${note}`, duration);
+
+		//if (SynthManager.Synth.activeVoices <= 1)
+			SynthManager.Synth.triggerAttackRelease(`${note}`, duration);
 
 	},
 
@@ -84,12 +85,12 @@ export function KEYBOARD ()
 
 	useEffect(()=>{ 
 
-		navigator.requestMIDIAccess().then((access: WebMidi.MIDIAccess) => {
+		navigator.requestMIDIAccess()
+		.then((access: WebMidi.MIDIAccess) => {
 			
 			console.log('MIDI ACCESS: ', access);
 
-			function connectToDevice(device: any)
-			{
+			const connectToDevice = (device: any) => {
 				console.log('connecting to device: ', device);
 				assignMidiToKeys();
 					
@@ -98,16 +99,12 @@ export function KEYBOARD ()
 					const [command, num, velocity]: any = message.data;
 
 					if (command === 248) //up
-					{
 						VISUALIZATION.init = false;
-						return;
-					}
-
-					playNote(num, '16n');
 				}
-			}
-			function updateDeviceList(inputs: any)
-			{
+			},
+
+			updateDeviceList = (inputs: any) => {
+
 				inputs.map((e: any) => {
 
 					const el = document.getElementById('midi-device');
@@ -122,7 +119,8 @@ export function KEYBOARD ()
 					}
 					return el;
 				});
-			}			
+			}	
+
 			updateDeviceList(Array.from(access.inputs.values()));
 
 			access.onstatechange = function(e: any){
@@ -139,8 +137,8 @@ export function KEYBOARD ()
 			<Piano 
 				id="piano" className='bordered'
 				noteRange={{ first: firstNote, last: lastNote }}
-				playNote={(midiNumber: number) => playNote(midiNumber, Infinity)}
-				stopNote={(midiNumber: number) => {
+				playNote={ (midiNumber: number): void => playNote(midiNumber, Infinity) }
+				stopNote={ (): void => {
 					SynthManager.Synth.releaseAll();
 					VISUALIZATION.init = false;
 				}}  

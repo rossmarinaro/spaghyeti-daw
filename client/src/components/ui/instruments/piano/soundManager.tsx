@@ -4,9 +4,10 @@ import { SynthManager } from './synthManager';
 let sounds: Element[] = [],
     init = false;
 
-const swapSound = async (e: Event, selection: any) => {
+const swapSound = async (event: Event | null, selection: any) => {
 
-    e.preventDefault();
+    if (event)
+        event.preventDefault();
 
     const 
         off = 'rgb(109, 104, 118)',
@@ -45,7 +46,11 @@ const swapSound = async (e: Event, selection: any) => {
 
 }
 
+
+
+
 //------------------------------- UI component
+
 
 export function SoundbankUI()
 {
@@ -60,6 +65,11 @@ export function SoundbankUI()
         sounds = Array.from(document.getElementsByClassName('sound-bank-item'));
 
         sounds.forEach((i: Element) => i.addEventListener('click', (e: any) => swapSound(e, i)));
+
+        //set default sound
+
+        for (let i = 0; i < 2; i++)
+            swapSound(null, document.getElementById('sound-bank-square'));
 
     });
 

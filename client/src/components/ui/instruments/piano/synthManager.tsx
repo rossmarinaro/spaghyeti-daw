@@ -21,30 +21,37 @@ export class SynthManager {
 
     public static synths: Element[] = []
     public static init: boolean = false
-    public static Synth: any//Tone.PolySynth
-
-    public static options: { volume: number, voice: any, oscillator: { type: string }} = 
-        { volume: 1, voice: Tone.MonoSynth, oscillator: { type: 'square' }}
+    public static Synth: Tone.PolySynth
+    public static options: any = { //synth defaults
+        volume: 1, 
+        voice: Tone.MonoSynth, 
+        envelope: {attack: 0.1}, 
+        oscillator: { type: 'square' }
+    }
 
 
     //--------------- update current synth
 
     public static update (): void
     { 
-
+        
        if (SynthManager.Synth)
-            SynthManager.Synth.disconnect();
+            SynthManager.Synth.dispose().disconnect();
 
         SynthManager.Synth = new Tone.PolySynth({ volume: SynthManager.options.volume, voice: SynthManager.options.voice }).toDestination();
-        SynthManager.Synth.set({oscillator: { type: SynthManager.options.oscillator.type }})
+        SynthManager.Synth.set({
+            envelope: { attack: SynthManager.options.envelope.attack },
+            oscillator: { type: SynthManager.options.oscillator.type }
+        })
     }
 
     //-------------- swap current synth
 
-    public static async swapSynth (e: Event, selection: any) 
+    public static async swapSynth (event: Event | null, selection: any) 
     {            
 
-        e.preventDefault();
+        if (event)
+            event.preventDefault();
     
         const 
             off = 'rgb(109, 104, 118)',
@@ -87,7 +94,10 @@ export class SynthManager {
     }
 }
 
+
+
 //------------------------------ UI component
+
 
 export function SynthbankUI()
 {
@@ -101,6 +111,11 @@ export function SynthbankUI()
         SynthManager.update();
         SynthManager.synths = Array.from(document.getElementsByClassName('synth-bank-item'));
         SynthManager.synths.forEach((i: Element) => i.addEventListener('click', (e: any) => SynthManager.swapSynth(e, i)));
+        
+        //set default synth
+
+        for (let i = 0; i < 2; i++)
+            SynthManager.swapSynth(null, document.getElementById('synth-bank-mono'));
 
     });
 

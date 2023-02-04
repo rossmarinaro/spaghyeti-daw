@@ -2,26 +2,27 @@ import { useEffect } from "react";
 import { SynthManager } from './synthManager';
 
 
+const getSliderVal = (e: any, meter: string) => {
+         
+    e.preventDefault();
+
+    switch(meter)
+    {
+        case 'partials': 
+            SynthManager.Synth.set({ oscillator : {partialCount: e.target.value} }); 
+        break;
+        case 'frequency': 
+            SynthManager.Synth.set({ detune: e.target.value }); 
+        break;
+        case 'env': 
+            SynthManager.Synth.set({ envelope: {attack: e.target.value } }); 
+        break;
+    }
+
+}
 
 export function OptionsManager()
 {
-
-    const getSliderVal = (e: any, meter: string) =>{ 
-        e.preventDefault();
-
-        switch(meter)
-        {
-            case 'partials': 
-                SynthManager.Synth.set({ oscillator : {partialCount: e.target.value} }); 
-            break;
-            case 'frequency': 
-                SynthManager.Synth.set({ detune: e.target.value }); 
-            break;
-            case 'env': 
-                SynthManager.Synth.set({ envelope: {attack: e.target.value } }); 
-            break;
-        }
-    }
 
     useEffect(()=>{
 
