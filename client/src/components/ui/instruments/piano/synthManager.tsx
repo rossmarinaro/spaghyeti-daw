@@ -27,14 +27,19 @@ export class SynthManager {
         { volume: 1, voice: Tone.MonoSynth, oscillator: { type: 'square' }}
 
 
+    //--------------- update current synth
+
     public static update (): void
     { 
+
        if (SynthManager.Synth)
             SynthManager.Synth.disconnect();
 
         SynthManager.Synth = new Tone.PolySynth({ volume: SynthManager.options.volume, voice: SynthManager.options.voice }).toDestination();
         SynthManager.Synth.set({oscillator: { type: SynthManager.options.oscillator.type }})
     }
+
+    //-------------- swap current synth
 
     public static async swapSynth (e: Event, selection: any) 
     {            
