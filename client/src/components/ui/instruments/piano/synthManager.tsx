@@ -21,26 +21,19 @@ export class SynthManager {
 
     public static synths: Element[] = []
     public static init: boolean = false
+    public static Synth: any//Tone.PolySynth
 
     public static options: { volume: number, voice: any, oscillator: { type: string }} = 
         { volume: 1, voice: Tone.MonoSynth, oscillator: { type: 'square' }}
 
-    public static Synth: any = new Tone.PolySynth(SynthManager.options).toDestination();
 
     public static update (): void
     { 
-        
-        SynthManager.Synth = null;
-        
-        const options = {
-            
-            volume: SynthManager.options.volume,
-            voice: SynthManager.options.voice,
-            oscillator: { type: SynthManager.options.oscillator.type }
+       if (SynthManager.Synth)
+            SynthManager.Synth.disconnect();
 
-        }
-
-        SynthManager.Synth = new Tone.PolySynth(options).toDestination();
+        SynthManager.Synth = new Tone.PolySynth({ volume: SynthManager.options.volume, voice: SynthManager.options.voice }).toDestination();
+        SynthManager.Synth.set({oscillator: { type: SynthManager.options.oscillator.type }})
     }
 
     public static async swapSynth (e: Event, selection: any) 
@@ -51,47 +44,45 @@ export class SynthManager {
         const 
             off = 'rgb(109, 104, 118)',
             on = 'rgb(64, 62, 68)',
-            id = selection.getAttribute('id'),
+            id = selection.getAttribute('id');
 
-        checkOption = async () => {
+        selection.style.backgroundColor = selection.style.backgroundColor === on ? off : on;
 
-            switch (id)
-            {
-                case 'synth-bank-mono': 
-                    SynthManager.options.volume = 0;
-                    SynthManager.options.voice = Tone.MonoSynth;
-                break;
-                case 'synth-bank-duo': 
-                    SynthManager.options.volume = 0;
-                    SynthManager.options.voice = Tone.DuoSynth;
-                break; 
-                case 'synth-bank-am': 
-                    SynthManager.options.volume = 2;
-                    SynthManager.options.voice = Tone.AMSynth;
-                break;
-                case 'synth-bank-fm': 
-                    SynthManager.options.volume = 0;
-                    SynthManager.options.voice = Tone.FMSynth;
-                break;
-            }
+        switch (id)
+        {
+            case 'synth-bank-mono': 
+                SynthManager.options.volume = 0;
+                SynthManager.options.voice = Tone.MonoSynth;
+            break;
+            case 'synth-bank-duo': 
+                SynthManager.options.volume = 0;
+                SynthManager.options.voice = Tone.DuoSynth;
+            break; 
+            case 'synth-bank-am': 
+                SynthManager.options.volume = 2;
+                SynthManager.options.voice = Tone.AMSynth;
+            break;
+            case 'synth-bank-fm': 
+                SynthManager.options.volume = 0;
+                SynthManager.options.voice = Tone.FMSynth;
+            break;
         }
-    
-        await checkOption();
 
         SynthManager.update();
-    
-        selection.style.backgroundColor = selection.style.backgroundColor === on ? off : on;
-    
-        SynthManager.synths.forEach((element: Element) => {
+
+        SynthManager.synths.forEach((element: any) => {    
+
             if (id !== element.id)
-                element.setAttribute('style', 'background-color: off');
+            {
+                element.setAttribute('style', 'background-color: on');
+                element.style.backgroundColor = 'rgb(64, 62, 68)';
+            }
         });
     
     }
 }
 
-SynthManager.Synth.set({oscillator : {type: 'square'}});
-
+//------------------------------ UI component
 
 export function SynthbankUI()
 {
@@ -102,9 +93,8 @@ export function SynthbankUI()
             return;
 
         SynthManager.init = true;
-
+        SynthManager.update();
         SynthManager.synths = Array.from(document.getElementsByClassName('synth-bank-item'));
-
         SynthManager.synths.forEach((i: Element) => i.addEventListener('click', (e: any) => SynthManager.swapSynth(e, i)));
 
     });

@@ -11,40 +11,41 @@ const swapSound = async (e: Event, selection: any) => {
     const 
         off = 'rgb(109, 104, 118)',
         on = 'rgb(64, 62, 68)',
-        id = selection.getAttribute('id'),
-
-    checkOption = async ()=> {
-
-        switch (id)
-        {
-
-            case 'sound-bank-square': 
-                SynthManager.options.oscillator.type = 'square';
-            break;
-            case 'sound-bank-saw': 
-                SynthManager.options.oscillator.type = 'sawtooth';
-            break;
-            case 'sound-bank-sine': 
-                SynthManager.options.oscillator.type = 'sine';
-            break;
-            case 'sound-bank-triangle': 
-                SynthManager.options.oscillator.type = 'triangle';
-            break;
-        } 
-    }
-
-    await checkOption();
-
-    SynthManager.update();
+        id = selection.getAttribute('id');
 
     selection.style.backgroundColor = selection.style.backgroundColor === on ? off : on;
 
-    sounds.forEach((element: Element) => {
+    switch (id)
+    {
+
+        case 'sound-bank-square': 
+            SynthManager.options.oscillator.type = 'square';
+        break;
+        case 'sound-bank-saw': 
+            SynthManager.options.oscillator.type = 'sawtooth';
+        break;
+        case 'sound-bank-sine': 
+            SynthManager.options.oscillator.type = 'sine';
+        break;
+        case 'sound-bank-triangle': 
+            SynthManager.options.oscillator.type = 'triangle';
+        break;
+    } 
+
+    SynthManager.update();
+
+    sounds.forEach((element: any) => {    
+
         if (id !== element.id)
-            element.setAttribute('style', 'background-color: off');
+        {
+            element.setAttribute('style', 'background-color: on');
+            element.style.backgroundColor = 'rgb(64, 62, 68)';
+        }
     });
 
 }
+
+//------------------------------- UI component
 
 export function SoundbankUI()
 {
