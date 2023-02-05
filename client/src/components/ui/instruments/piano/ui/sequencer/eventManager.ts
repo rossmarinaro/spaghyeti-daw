@@ -1,5 +1,5 @@
 import * as Tone from 'tone';
-import { SynthManager } from '../synthManager';
+import { SynthManager } from '../synthBank';
 
 
 export class EventManager {

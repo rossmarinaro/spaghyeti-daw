@@ -26,7 +26,7 @@ export class SynthManager {
         volume: 1, 
         voice: Tone.MonoSynth, 
         envelope: {attack: 0.1}, 
-        oscillator: { type: 'square' }
+        oscillator: { type: 'square', partialCount: 0 }
     }
 
 
@@ -41,26 +41,22 @@ export class SynthManager {
         SynthManager.Synth = new Tone.PolySynth({ volume: SynthManager.options.volume, voice: SynthManager.options.voice }).toDestination();
         SynthManager.Synth.set({
             envelope: { attack: SynthManager.options.envelope.attack },
-            oscillator: { type: SynthManager.options.oscillator.type }
+            oscillator: { 
+                type: SynthManager.options.oscillator.type, 
+                partialCount: SynthManager.options.oscillator.partialCount
+            }
         })
     }
 
     //-------------- swap current synth
 
-    public static async swapSynth (event: Event | null, selection: any) 
+    public static swapSynth (event: Event | null, selection: any): void 
     {            
 
         if (event)
             event.preventDefault();
-    
-        const 
-            off = 'rgb(109, 104, 118)',
-            on = 'rgb(64, 62, 68)',
-            id = selection.getAttribute('id');
 
-        selection.style.backgroundColor = selection.style.backgroundColor === on ? off : on;
-
-        switch (id)
+        switch (selection.getAttribute('id'))
         {
             case 'synth-bank-mono': 
                 SynthManager.options.volume = 0;
@@ -82,14 +78,7 @@ export class SynthManager {
 
         SynthManager.update();
 
-        SynthManager.synths.forEach((element: any) => {    
-
-            if (id !== element.id)
-            {
-                element.setAttribute('style', 'background-color: on');
-                element.style.backgroundColor = 'rgb(64, 62, 68)';
-            }
-        });
+        SynthManager.synths.forEach((element: any) => element.style.backgroundColor = selection.getAttribute('id') !== element.id ? 'rgb(64, 62, 68)' : 'rgb(109, 104, 118)');
     
     }
 }

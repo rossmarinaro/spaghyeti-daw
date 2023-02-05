@@ -61,12 +61,8 @@ li {
   padding: 5%
 }
 
-#midi-options{
+#midi-device{
   display: flex;
-}
-
-#midi-device p{
-  padding: 15%;
 }
 
 /* //------------- */

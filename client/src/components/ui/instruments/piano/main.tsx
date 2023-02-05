@@ -1,10 +1,10 @@
-import { OptionsManager } from './optionsManager';
-import { SoundbankUI } from './soundManager';
-import { SynthbankUI } from './synthManager';
-import { KEYBOARD } from './Keyboard';
-import { Display } from './display';
-import { ModuleRack } from './modules/rack';
-import { Midi } from './midi';
+import { OptionsManager } from './ui/modSliders';
+import { SoundbankUI } from './ui/soundBank';
+import { SynthbankUI } from './ui/synthBank';
+import { KEYBOARD } from './ui/Keyboard';
+import { Display } from './ui/display';
+import { ModuleRack } from './ui/modules/rack';
+import { Midi } from './ui/midi';
 
 
 export function PIANO()

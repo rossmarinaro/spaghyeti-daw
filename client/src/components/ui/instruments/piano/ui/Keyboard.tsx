@@ -1,10 +1,10 @@
 
-import '../../../../css/Piano.css';
+import '../../../../../css/Piano.css';
 import * as Tone from 'tone';
 import { useEffect } from 'react';
-import { SynthManager } from './synthManager';
+import { SynthManager } from './synthBank';
 import { eventManager } from './sequencer/eventManager';
-import { playerManager } from '../../../workspace/track/playerManager';
+import { playerManager } from '../../../../workspace/track/playerManager';
 import VISUALIZATION from './display';
 
 //import 'react-piano/dist/styles.css';

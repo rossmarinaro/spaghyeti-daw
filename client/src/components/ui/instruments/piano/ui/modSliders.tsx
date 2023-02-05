@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { SynthManager } from './synthManager';
+import { SynthManager } from './synthBank';
 
 
 const getSliderVal = (e: any, meter: string) => {
@@ -9,6 +9,7 @@ const getSliderVal = (e: any, meter: string) => {
     switch(meter)
     {
         case 'partials': 
+            SynthManager.options.oscillator.partialCount = e.target.value;
             SynthManager.Synth.set({ oscillator : {partialCount: e.target.value} }); 
         break;
         case 'frequency': 

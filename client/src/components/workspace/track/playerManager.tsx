@@ -1,7 +1,7 @@
 import * as Tone from 'tone';
 import { useEffect } from "react";
 
-import { eventManager } from '../../ui/instruments/piano/sequencer/eventManager'
+import { eventManager } from '../../ui/instruments/piano/ui/sequencer/eventManager'
 
 let init = false;
 
@@ -81,16 +81,14 @@ export function PlayerRack()
 
         init = true;
 
-        const startSeq = document.getElementById('start-seq');
+        const startSeq = document.getElementById('start-seq'),
+              stopSeq = document.getElementById('stop-seq'),
+              recordSeq = document.getElementById('record-seq'),
+              pauseSeq = document.getElementById('pause-seq');
+
         startSeq?.addEventListener('click', () => update('start'));
-    
-        const stopSeq = document.getElementById('stop-seq');
         stopSeq?.addEventListener('click', () => update('stop'));
-
-        const recordSeq = document.getElementById('record-seq');
         recordSeq?.addEventListener('click', () => update('record'));
-
-        const pauseSeq = document.getElementById('pause-seq');
         pauseSeq?.addEventListener('click', () => update('pause'));
 
     });

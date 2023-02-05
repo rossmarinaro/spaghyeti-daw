@@ -1,22 +1,15 @@
 import { useEffect } from 'react';
-import { SynthManager } from './synthManager';
+import { SynthManager } from './synthBank';
 
 let sounds: Element[] = [],
     init = false;
 
-const swapSound = async (event: Event | null, selection: any) => {
+const swapSound = (event: Event | null, selection: any): void => {
 
     if (event)
         event.preventDefault();
 
-    const 
-        off = 'rgb(109, 104, 118)',
-        on = 'rgb(64, 62, 68)',
-        id = selection.getAttribute('id');
-
-    selection.style.backgroundColor = selection.style.backgroundColor === on ? off : on;
-
-    switch (id)
+    switch (selection.getAttribute('id'))
     {
 
         case 'sound-bank-square': 
@@ -35,14 +28,7 @@ const swapSound = async (event: Event | null, selection: any) => {
 
     SynthManager.update();
 
-    sounds.forEach((element: any) => {    
-
-        if (id !== element.id)
-        {
-            element.setAttribute('style', 'background-color: on');
-            element.style.backgroundColor = 'rgb(64, 62, 68)';
-        }
-    });
+    sounds.forEach((element: any) => element.style.backgroundColor = selection.getAttribute('id') !== element.id ? 'rgb(64, 62, 68)' : 'rgb(109, 104, 118)');
 
 }
 

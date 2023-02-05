@@ -89,10 +89,14 @@
 export function Midi()
 {
     return (
-        <div id="midi-options" className="options">
-            <div id="midi-device" className="bordered options"><p>NO DEVICE</p></div>
-            <div id="midi-device" className="bordered options"><p>SELECT MIDI DEVICE</p></div>
-        </div>
+        <>
+            <div className="bordered options"><p>NO DEVICE SELECTED</p></div>
+            <div id="midi-device" className="options">
+                <div className="bordered options midi-option"><p>SELECT MIDI DEVICE</p></div>
+                <div className="bordered options midi-option"><p>CLEAR MIDI DEVICE</p></div>
+            </div>
+        </>
+
     );
 }
 
