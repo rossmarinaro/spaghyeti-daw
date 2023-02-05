@@ -86,7 +86,7 @@
    * Styles for disabled state
    */
   .ReactPiano__Key--disabled.ReactPiano__Key--accidental {
-    background: rgb(134, 24, 24);
+    background: #861818;
     border: 1px solid rgb(15, 15, 15);
   }
   

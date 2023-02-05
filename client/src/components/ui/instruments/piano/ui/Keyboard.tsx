@@ -1,55 +1,81 @@
 
+//import 'react-piano/dist/styles.css';
 import '../../../../../css/Piano.css';
 import * as Tone from 'tone';
 import { useEffect } from 'react';
 import { SynthManager } from './synthBank';
 import { eventManager } from './sequencer/eventManager';
 import { playerManager } from '../../../../workspace/track/playerManager';
+import { MidiManager } from './midi';
 import VISUALIZATION from './display';
 
-//import 'react-piano/dist/styles.css';
-
-//react piano
-
-const { Piano, KeyboardShortcuts, MidiNumbers } = require('react-piano'),
-	   midiToNote = require('midi-note');
 
 //midi 
 	require('webmidi');
 
+//react piano
 
-//--------------------------------- PIANO UI
-
-
-export function KEYBOARD ()
-{	
-	let 
-		initialized = false,
-		octave = 1;
-
-	const 
-		firstNote = MidiNumbers.fromNote('c3'),
+const { Piano, KeyboardShortcuts, MidiNumbers } = require('react-piano'),
+	    midiToNote = require('midi-note'),
+	    firstNote = MidiNumbers.fromNote('c3'),
 		lastNote = MidiNumbers.fromNote('f6'),
-		keyboardShortcuts = KeyboardShortcuts.create({
-			firstNote: firstNote,
-			lastNote: lastNote,
-			keyboardConfig: KeyboardShortcuts.HOME_ROW,
-		}),
+		keyboardShortcuts = KeyboardShortcuts.create({ firstNote, lastNote, keyboardConfig: KeyboardShortcuts.HOME_ROW });
 
-	//play note
 
-	playNote = (message: number, duration: number | string): void => { 
+let uiInit = false;
+
+
+export class PianoManager {
+
+	private static initialized: boolean = false
+	private static octave: number = 1
+	
+	public static notesPlaying: number[] = []
+	public static noteFreq: number = 0
+	public static noteType: string = ''
+
+	//------------------------------ assign keys
+
+	public static assignKeys (): void
+	{     
+
+		if (PianoManager.initialized)
+			return;
+
+		PianoManager.initialized = true;
+
+		const pianoKeys = Array.from(document.getElementsByClassName('ReactPiano__Key'));
+
+		//set data names for keys
+
+		for (let i = 0; i < pianoKeys.length; i++)
+			pianoKeys[i].setAttribute('id', `key${Number(i + 48)}`); 
+		
+	}
+
+	//--------------------------play note
+	
+
+	public static playNote (message: number, duration: number | string): void 
+	{ 
 
 		VISUALIZATION.init = true; 
 
 		const key = document.getElementById(`key${message}`); 
+
 		key?.classList.add('.ReactPiano__KeyActive');
 		key?.classList.remove('.ReactPiano__Key--natural');
 
 		//console.log('midi num: ', message, 'to note: ', midiToNote(message));
 
-		let note = midiToNote(message * octave),
+		PianoManager.noteFreq = message * PianoManager.octave;
+
+		let note = midiToNote(PianoManager.noteFreq),
 			time = Tone.Transport.seconds;
+
+		PianoManager.noteType = note.toString().includes('b') ? 'flat' : 'natural'; 
+		
+		PianoManager.notesPlaying.push(note);
 	
 	//capture inputs if recording
 
@@ -64,70 +90,46 @@ export function KEYBOARD ()
 		//if (SynthManager.Synth.activeVoices <= 1)
 			SynthManager.Synth.triggerAttackRelease(`${note}`, duration);
 
-	},
+	}
 
-	assignMidiToKeys = () => {     
+	//-----------------------------
 
-		if (initialized)
-			return;
-
-		initialized = true;
-
-		const pianoKeys = Array.from(document.getElementsByClassName('ReactPiano__Key'));
-
-		//set data names for keys
-
-		for (let i = 0; i < pianoKeys.length; i++)
-			pianoKeys[i].setAttribute('id', `key${Number(i + 48)}`); 
+	public static releaseNotes (): void
+	{
+		
+		SynthManager.Synth.releaseAll();
+		PianoManager.notesPlaying = [];
+		PianoManager.noteFreq = 0;
+		PianoManager.noteType = '';
+		VISUALIZATION.init = false;
 		
 	}
 
+}
 
-	useEffect(()=>{ 
 
-		navigator.requestMIDIAccess()
-		.then((access: WebMidi.MIDIAccess) => {
+//--------------------------------- PIANO UI
+
+
+export function KEYBOARD ()
+{	
+	
+	useEffect(()=> { 
+
+		navigator.requestMIDIAccess().then((access: WebMidi.MIDIAccess) => {
 			
 			console.log('MIDI ACCESS: ', access);
-
-			const connectToDevice = (device: any) => {
-				console.log('connecting to device: ', device);
-				assignMidiToKeys();
-					
-				device.onmidimessage = function(message: WebMidi.MIDIMessageEvent)
-				{
-					const [command, num, velocity]: any = message.data;
-
-					if (command === 248) //up
-						VISUALIZATION.init = false;
-				}
-			},
-
-			updateDeviceList = (inputs: any) => {
-
-				inputs.map((e: any) => {
-
-					const el = document.getElementById('midi-device');
-
-					if (el !== null)
-					{
-						el.innerText = `${e.name} (${e.manufacturer})`;
-						el.addEventListener('click', connectToDevice.bind(null, e));
-
-					//auto connect to midi device
-						connectToDevice(e);
-					}
-					return el;
-				});
-			}	
-
-			updateDeviceList(Array.from(access.inputs.values()));
-
-			access.onstatechange = function(e: any){
-				updateDeviceList(Array.from(this.inputs.values()));
-			}			
+			MidiManager.updateDeviceList(Array.from(access.inputs.values()));
+			access.onstatechange = function(e: any){ MidiManager.updateDeviceList(Array.from(this.inputs.values())); }			
 		
 		});
+
+		if (uiInit)
+			return;
+
+		uiInit = true;
+
+		PianoManager.assignKeys();
 
 	});
 
@@ -137,13 +139,10 @@ export function KEYBOARD ()
 			<Piano 
 				id="piano" className='bordered'
 				noteRange={{ first: firstNote, last: lastNote }}
-				playNote={ (midiNumber: number): void => playNote(midiNumber, Infinity) }
-				stopNote={ (): void => {
-					SynthManager.Synth.releaseAll();
-					VISUALIZATION.init = false;
-				}}  
-				/* width={window.innerWidth / 2} */
+				playNote={ (midiNumber: number): void => PianoManager.playNote(midiNumber, Infinity) }
+				stopNote={ (): void => PianoManager.releaseNotes()}  
 				keyboardShortcuts={keyboardShortcuts}
+				/* width={window.innerWidth / 2} */
 			/>
 		</div>
 	  );

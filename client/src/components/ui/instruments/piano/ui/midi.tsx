@@ -86,6 +86,54 @@
 // //     }
 // // });
 
+
+import { PianoManager } from './Keyboard';
+import VISUALIZATION from './display';
+
+
+export class MidiManager {
+
+    private static connectToDevice (device: any): void
+    {
+
+        console.log('connecting to device: ', device);
+       // PianoManager.assignMidiToKeys();
+            
+        device.onmidimessage = function(message: WebMidi.MIDIMessageEvent)
+        {
+            const [command, num, velocity]: any = message.data;
+
+            if (command === 248) //up
+                VISUALIZATION.init = false;
+        }
+    }
+
+    //------------------------------------
+
+    public static updateDeviceList (inputs: any): void
+    {
+
+        inputs.map((e: any) => {
+
+            const el = document.getElementById('midi-device');
+
+            if (el !== null)
+            {
+                el.innerText = `${e.name} (${e.manufacturer})`;
+                el.addEventListener('click', MidiManager.connectToDevice.bind(null, e));
+
+            //auto connect to midi device
+
+                MidiManager.connectToDevice(e);
+            }
+
+            return el;
+
+        });
+    }	
+}
+
+
 export function Midi()
 {
     return (
