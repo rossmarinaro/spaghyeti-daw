@@ -30,7 +30,7 @@ export class PianoManager {
 	private static initialized: boolean = false
 	private static octave: number = 1
 	
-	public static notesPlaying: number[] = []
+	public static notesPlaying: number[] = [] 
 	public static noteFreq: number = 0
 	public static noteType: string = ''
 
@@ -74,7 +74,7 @@ export class PianoManager {
 			time = Tone.Transport.seconds;
 
 		PianoManager.noteType = note.toString().includes('b') ? 'flat' : 'natural'; 
-		
+
 		PianoManager.notesPlaying.push(note);
 	
 	//capture inputs if recording

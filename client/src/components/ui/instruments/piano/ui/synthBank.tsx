@@ -22,11 +22,17 @@ export class SynthManager {
     public static synths: Element[] = []
     public static init: boolean = false
     public static Synth: Tone.PolySynth
+    
     public static options: any = { //synth defaults
         voice: Tone.MonoSynth,
         volume: 1,  
         detune: 1,
-        envelope: { attack: 0.1 }, 
+        envelope: { 
+            attack: 0.005,
+            decay: 0.1,
+            release: 1,
+            sustain: 0.3
+        }, 
         oscillator: { 
             type: 'square', 
             partials: [0, 2, 3, 4],
@@ -43,17 +49,19 @@ export class SynthManager {
        if (SynthManager.Synth)
             SynthManager.Synth.dispose().disconnect();
 
-        SynthManager.Synth = new Tone.PolySynth({ volume: SynthManager.options.volume, voice: SynthManager.options.voice }).toDestination();
+       // SynthManager.Synth = new Tone.PolySynth({ volume: SynthManager.options.volume, voice: SynthManager.options.voice }).toDestination();
 
-        SynthManager.Synth.set({
+
+        SynthManager.Synth = new Tone.PolySynth(Tone.Synth   /* SynthManager.options.voice */ , {
             envelope: { attack: SynthManager.options.envelope.attack },
             detune: SynthManager.options.detune,
-            oscillator: { 
+			oscillator: { 
                 type: SynthManager.options.oscillator.type, 
                 partials: SynthManager.options.oscillator.partials,
                 partialCount: SynthManager.options.oscillator.partialCount
-            }
-        });
+			}}).toDestination();
+
+       //SynthManager.Synth.set({voice: SynthManager.options.voice})
     }
 
     //-------------- swap current synth
