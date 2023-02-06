@@ -1,7 +1,7 @@
 import * as Tone from 'tone';
 import { useEffect } from "react";
 
-import { eventManager } from '../../ui/instruments/piano/ui/sequencer/eventManager'
+import { eventManager } from '../../instruments/piano/ui/sequencer/eventManager'
 
 let init = false;
 

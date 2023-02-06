@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { SynthManager } from '../synthBank';
-import { PianoManager } from '../Keyboard';
+import { PianoManager } from '../keyboard';
 import VISUALIZATION from '../display';
 
 export class PianoUIDisplay extends Phaser.Scene {

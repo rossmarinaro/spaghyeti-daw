@@ -1,11 +1,11 @@
 
 //import 'react-piano/dist/styles.css';
-import '../../../../../css/Piano.css';
+import '../../../../css/Piano.css';
 import * as Tone from 'tone';
 import { useEffect } from 'react';
 import { SynthManager } from './synthBank';
 import { eventManager } from './sequencer/eventManager';
-import { playerManager } from '../../../../workspace/track/playerManager';
+import { playerManager } from '../../../workspace/track/playerManager';
 import { MidiManager } from './midi';
 import VISUALIZATION from './display';
 
@@ -66,8 +66,6 @@ export class PianoManager {
 		key?.classList.add('.ReactPiano__KeyActive');
 		key?.classList.remove('.ReactPiano__Key--natural');
 
-		//console.log('midi num: ', message, 'to note: ', midiToNote(message));
-
 		PianoManager.noteFreq = message * PianoManager.octave;
 
 		let note = midiToNote(PianoManager.noteFreq),
@@ -87,7 +85,9 @@ export class PianoManager {
 
 	//play note
 
-		SynthManager.Synth.triggerAttack(`${note}`);
+		SynthManager.options.type === 'poly' ?
+			SynthManager.Synth.triggerAttack(`${note}`) :
+			SynthManager.Synth.triggerAttackRelease(`${note}`, '8n');
 
 	}
 
@@ -96,7 +96,9 @@ export class PianoManager {
 	public static releaseNotes (): void
 	{
 		
-		SynthManager.Synth.releaseAll();
+		if (SynthManager.options.type === 'poly')
+			SynthManager.Synth.releaseAll();
+
 		PianoManager.notesPlaying = [];
 		PianoManager.noteFreq = 0;
 		PianoManager.noteType = '';

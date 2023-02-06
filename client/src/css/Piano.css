@@ -57,15 +57,6 @@
    * Styles of "active" or pressed-down keys
    */
   
-   /* tmp */
-  .ReactPiano__KeyActive {
-    background: #3ada55;
-  }
-  
-  
-  .ReactPiano__Key--active {
-    background: #3ada55;
-  }
   
   .ReactPiano__Key--active.ReactPiano__Key--accidental {
     border: 1px solid #fff;
@@ -135,16 +126,21 @@
 
   /* custom */
 
+
+  #piano-rack {
+    position: fixed;
+    top: 10%;
+  } 
   
   .sound-bank {
     margin: auto;
     display: flex;
     justify-content: space-between;
-    width: 50%
+    width: 50%;
   }
 
   .sound-bank-item, .synth-bank-item{
-    background-color: rgb(64, 62, 68);
+    background-color: #3f3d43;
     margin: auto;
     width: 35%;
   }
@@ -159,22 +155,39 @@
     border: 0.1em solid #000000;
   }
 
+
+
 @media screen and (orientation: portrait)
 {
-
+  #synth-options {
+    display: flex;
+    padding: 5%;
+    width: 5%;
+    height: 10%;
+  }
   .sound-bank-item p{
     font-size: 0.3em;
   }
 }
 @media screen and (orientation: landscape)
 {
+  #piano-ui {
+    height: 180px;
+  }
 
+  #synth-options div {
+    width: 30%;
+
+  }
   .sound-bank-item p{
     font-size: 1em;
   }
 }
 @media screen and (min-width: 1030px) /* desktop only */
 {
- 
+  #piano-ui {
+    height: 180px;
+  
+  }
 }
 

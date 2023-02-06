@@ -14,15 +14,19 @@ const swapSound = (event: Event | null, selection: any): void => {
 
         case 'sound-bank-square': 
             SynthManager.options.oscillator.type = 'square';
+            SynthManager.Synth?.set({oscillator: {type: 'square'}});
         break;
         case 'sound-bank-saw': 
             SynthManager.options.oscillator.type = 'sawtooth';
+            SynthManager.Synth?.set({oscillator: {type: 'sawtooth'}});
         break;
         case 'sound-bank-sine': 
             SynthManager.options.oscillator.type = 'sine';
+            SynthManager.Synth?.set({oscillator: {type: 'sine'}});
         break;
         case 'sound-bank-triangle': 
             SynthManager.options.oscillator.type = 'triangle';
+            SynthManager.Synth?.set({oscillator: {type: 'triangle'}});
         break;
     } 
 

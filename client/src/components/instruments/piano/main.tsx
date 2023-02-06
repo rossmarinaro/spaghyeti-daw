@@ -1,22 +1,26 @@
-import { OptionsUI } from './ui/modSliders';
+
 import { SoundbankUI } from './ui/soundBank';
 import { SynthbankUI } from './ui/synthBank';
-import { KEYBOARD } from './ui/Keyboard';
+import { KEYBOARD } from './ui/keyboard';
 import { Display } from './ui/display';
-import { ModuleRack } from './ui/modules/rack';
-import { Midi } from './ui/midi';
+import { ModuleRack } from '../modules/rack';
+
 
 
 export function PIANO()
 {
     return (
+
         <div id="piano-component" className='bordered' >
-            <Midi />
+    
             <Display />
-            <OptionsUI />
+            <ModuleRack />
+            <br></br>
+            <br></br>
             <SoundbankUI />     
             <SynthbankUI />  
-            <ModuleRack /> 
+            <br></br>
+            <br></br>
             <KEYBOARD />
         </div>
     );

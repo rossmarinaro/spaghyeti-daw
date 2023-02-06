@@ -1,51 +1,35 @@
 
 import './css/App.css';
 
-import { MainMenu } from './components/ui/menus/main';
-import { AudioPlayer } from './components/workspace/audioPlayer';
-
-import { PIANO } from './components/ui/instruments/piano/main';
+import { Midi } from './components/instruments/piano/ui/midi';
+import { FileManagerUI } from './components/workspace/file';
+import { PIANO } from './components/instruments/piano/main';
 import { TRACK } from './components/workspace/track/main'; 
 
-const currentInstrument = 'Piano';
 
 function App() {
   
   return (
 
-    <div className="App container" >
-
+    <>
+    
       <header className="App-header">
-        <MainMenu instrument={currentInstrument}/>
+        <FileManagerUI />
+        <Midi />
       </header>
 
+      <div className="App" >
 
       <div id="main-container">
-      <div className="container" id="piano-rack">
-        <PIANO />
-      </div>  
         
-    
+        <div id="piano-rack" className="container" ><PIANO /></div>  
+        
+
         <div id="workspace">   
 
-          <div className="container" >
-            <AudioPlayer />
-            <br></br>
-            <form >
-                  {/* ... */}
-            </form>
-
-          </div>
-
-          <div className="container">
-
-            <form id="tools">
-                  {/* ... */}
-            </form>
-
-          </div>
-
           <div className="container"><TRACK /></div>
+          <div className="container"></div>
+          <div className="container"></div>
 
 
         </div>
@@ -53,7 +37,8 @@ function App() {
       </div>
 
 
-    </div>
+      </div>
+    </>
   );
 }
 

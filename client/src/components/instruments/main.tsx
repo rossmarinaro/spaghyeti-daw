@@ -1,7 +1,9 @@
 
+export class InstrumentManager {
+    public static currentInstrument: string = 'Piano';
+}
 
-
-export function MainMenu(instrument: {instrument: string})
+export function InstrumentUI(instrument: { instrument: string })
 {
     return (
         <div id="main-menu">

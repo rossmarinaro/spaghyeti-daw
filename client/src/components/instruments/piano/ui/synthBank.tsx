@@ -2,29 +2,16 @@ import * as Tone from 'tone';
 
 import { useEffect } from 'react';
 
-// export const MONOSYNTH = new Tone.MonoSynth().toDestination();
-// export const POLYSYNTH = new Tone.PolySynth().toDestination();
-
-// MONOSYNTH.set({
-//     filterEnvelope: {octaves: 54, sustain: 0.2, baseFrequency: 900}, 
-//     oscillator : {type: 'square', partialCount: 25}, 
-//     envelope: {attack: 0.1}, 
-//     detune: 10
-// });
-
-// POLYSYNTH.set({ 
-//     oscillator : {type: 'square'}, 
-//     envelope: {attack: 0.1}, 
-// });
 
 export class SynthManager {
 
     public static synths: Element[] = []
     public static init: boolean = false
-    public static Synth: Tone.PolySynth
+    public static Synth: any
     
     public static options: any = { //synth defaults
-        voice: Tone.MonoSynth,
+        voice: Tone.PolySynth,
+        type: 'poly',
         volume: 1,  
         detune: 1,
         envelope: { 
@@ -32,7 +19,27 @@ export class SynthManager {
             decay: 0.1,
             release: 1,
             sustain: 0.3
+        },
+        filter: {
+            Q: 1,
+            detune: 0,
+            frequency: 0,
+            gain: 0,
+            rolloff: -12,
+            type: 'lowpass'
         }, 
+        filterEnvelope: {
+            attack: 0.001,
+            attackCurve: 'linear',
+            baseFrequency: 300,
+            decay: 0.7,
+            decayCurve: 'exponential',
+            exponent: 2,
+            octaves: 54,
+            release: 0.8,
+            releaseCurve: 'exponential',
+            sustain: 0.1
+        },
         oscillator: { 
             type: 'square', 
             partials: [0, 2, 3, 4],
@@ -49,19 +56,15 @@ export class SynthManager {
        if (SynthManager.Synth)
             SynthManager.Synth.dispose().disconnect();
 
-       // SynthManager.Synth = new Tone.PolySynth({ volume: SynthManager.options.volume, voice: SynthManager.options.voice }).toDestination();
+        SynthManager.Synth = SynthManager.options.type === 'poly' ?
+            new Tone.PolySynth(Tone.Synth).toDestination() :
+            new SynthManager.options.voice({filterEnvelope: SynthManager.options.filterEnvelope}).toDestination();
 
-
-        SynthManager.Synth = new Tone.PolySynth(Tone.Synth   /* SynthManager.options.voice */ , {
-            envelope: { attack: SynthManager.options.envelope.attack },
-            detune: SynthManager.options.detune,
-			oscillator: { 
-                type: SynthManager.options.oscillator.type, 
-                partials: SynthManager.options.oscillator.partials,
-                partialCount: SynthManager.options.oscillator.partialCount
-			}}).toDestination();
-
-       //SynthManager.Synth.set({voice: SynthManager.options.voice})
+        SynthManager.Synth.set({
+            oscillator : SynthManager.options.oscillator, 
+            envelope: SynthManager.options.envelope, 
+            detune: SynthManager.options.detune
+        });
     }
 
     //-------------- swap current synth
@@ -76,18 +79,22 @@ export class SynthManager {
         {
             case 'synth-bank-mono': 
                 SynthManager.options.volume = 0;
+                SynthManager.options.type = 'mono';
                 SynthManager.options.voice = Tone.MonoSynth;
             break;
             case 'synth-bank-duo': 
                 SynthManager.options.volume = 0;
+                SynthManager.options.type = 'duo';
                 SynthManager.options.voice = Tone.DuoSynth;
             break; 
-            case 'synth-bank-am': 
+            case 'synth-bank-poly': 
                 SynthManager.options.volume = 2;
-                SynthManager.options.voice = Tone.AMSynth;
+                SynthManager.options.type = 'poly';
+                SynthManager.options.voice = Tone.PolySynth;
             break;
             case 'synth-bank-fm': 
                 SynthManager.options.volume = 0;
+                SynthManager.options.type = 'fm';
                 SynthManager.options.voice = Tone.FMSynth;
             break;
         }
@@ -120,7 +127,7 @@ export function SynthbankUI()
         //set default synth
 
         for (let i = 0; i < 2; i++)
-            SynthManager.swapSynth(null, document.getElementById('synth-bank-mono'));
+            SynthManager.swapSynth(null, document.getElementById('synth-bank-poly'));
 
     });
 
@@ -130,7 +137,7 @@ export function SynthbankUI()
         <div className="sound-bank" >
             <div id="synth-bank-mono" className="bordered synth-bank-item"><p>MONO</p></div>
             <div id="synth-bank-duo" className="bordered synth-bank-item"><p>DUO</p></div>
-            <div id="synth-bank-am" className="bordered synth-bank-item"><p>AM</p></div>
+            <div id="synth-bank-poly" className="bordered synth-bank-item"><p>POLY</p></div>
             <div id="synth-bank-fm" className="bordered synth-bank-item"><p>FM</p></div>
         </div>
     );

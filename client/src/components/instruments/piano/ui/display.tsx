@@ -28,7 +28,7 @@ export function Display()
     return (
 
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-            <div style={{ width: '50%' }}>
+            <div>
                 <Staff />
                 <Sequencer />
             </div>
