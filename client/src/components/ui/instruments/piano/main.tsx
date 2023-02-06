@@ -1,4 +1,4 @@
-import { OptionsManager } from './ui/modSliders';
+import { OptionsUI } from './ui/modSliders';
 import { SoundbankUI } from './ui/soundBank';
 import { SynthbankUI } from './ui/synthBank';
 import { KEYBOARD } from './ui/Keyboard';
@@ -13,7 +13,7 @@ export function PIANO()
         <div id="piano-component" className='bordered' >
             <Midi />
             <Display />
-            <OptionsManager />
+            <OptionsUI />
             <SoundbankUI />     
             <SynthbankUI />  
             <ModuleRack /> 

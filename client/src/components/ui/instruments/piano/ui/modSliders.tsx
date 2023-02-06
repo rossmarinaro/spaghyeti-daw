@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { SynthManager } from './synthBank';
 
 
-const getSliderVal = (e: any, meter: string) => {
+const getSliderVal = (e: any, meter: string): void => {
          
     e.preventDefault();
 
@@ -13,19 +13,24 @@ const getSliderVal = (e: any, meter: string) => {
             SynthManager.Synth.set({ oscillator : {partialCount: e.target.value} }); 
         break;
         case 'frequency': 
+            SynthManager.options.detune = e.target.value;
             SynthManager.Synth.set({ detune: e.target.value }); 
         break;
         case 'env': 
+            SynthManager.options.envelope.attack = e.target.value;
             SynthManager.Synth.set({ envelope: {attack: e.target.value } }); 
         break;
     }
 
 }
 
-export function OptionsManager()
+//--------------------------- options UI
+
+
+export function OptionsUI()
 {
 
-    useEffect(()=>{
+    useEffect(()=> {
 
         const partialsMeter = document.getElementById('partials-meter-level'),
               frequencyMeter = document.getElementById('frequency-meter-level'),
@@ -38,6 +43,7 @@ export function OptionsManager()
     });
 
     return (
+
         <div className="sound-bank">
          
            <div id="synth-options" className="options">
@@ -52,7 +58,7 @@ export function OptionsManager()
                 </div>
                 <div id="env">
                     <p>env</p>
-                    <input id="env-meter-level" className="bordered" type="range" min="0.1" max="1"/>
+                    <input id="env-meter-level" className="bordered" type="range" min="0.1" max="100"/>
                 </div>
  
            </div>

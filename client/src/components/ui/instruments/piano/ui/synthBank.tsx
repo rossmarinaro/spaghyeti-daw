@@ -23,10 +23,11 @@ export class SynthManager {
     public static init: boolean = false
     public static Synth: Tone.PolySynth
     public static options: any = { //synth defaults
-        volume: 1, 
-        voice: Tone.MonoSynth, 
+        voice: Tone.MonoSynth,
+        volume: 1,  
+        detune: 1,
         envelope: {attack: 0.1}, 
-        oscillator: { type: 'square', partialCount: 0 }
+        oscillator: { type: 'square', partialCount: 1 }
     }
 
 
@@ -41,6 +42,7 @@ export class SynthManager {
         SynthManager.Synth = new Tone.PolySynth({ volume: SynthManager.options.volume, voice: SynthManager.options.voice }).toDestination();
         SynthManager.Synth.set({
             envelope: { attack: SynthManager.options.envelope.attack },
+            detune: SynthManager.options.detune,
             oscillator: { 
                 type: SynthManager.options.oscillator.type, 
                 partialCount: SynthManager.options.oscillator.partialCount

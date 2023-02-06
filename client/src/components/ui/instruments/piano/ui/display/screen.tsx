@@ -29,8 +29,8 @@ export class PianoUIDisplay extends Phaser.Scene {
     private create(): void
     {
 
-        this.graphicsA = this.add.graphics({ lineStyle: { color: 0x00ff1a, alpha: 0.3 } });
-        this.graphicsB = this.add.graphics({ lineStyle: { color: 0xffff00, alpha: 0.3 } });
+        this.graphicsA = this.add.graphics({ lineStyle: { color: 0x00ff1a, alpha: 0.5 } });
+        this.graphicsB = this.add.graphics({ lineStyle: { color: 0xffff00, alpha: 0.5 } });
         
         this.textA = this.add.text(10, 10, '', { font: "1rem Arial"}).setColor('#ffffff').setStroke('#ff0000', 0.7);
 
@@ -90,13 +90,13 @@ export class PianoUIDisplay extends Phaser.Scene {
 
         if (this.ellipses)
 
-            for(var i = 0; i < this.ellipses.length; i++)
+            for (let i = 0; i < this.ellipses.length; i++)
             {
-                const partialX = SynthManager.options.oscillator.partialCount * 0.1 + 1,
-                      partialY = SynthManager.options.oscillator.partialCount * 0.1 + 1 / 2;
+                const partialX =  (SynthManager.options.oscillator.partialCount * 0.001) * (PianoManager.noteFreq / 2),
+                      partialY = (SynthManager.options.oscillator.partialCount * 0.001) * (PianoManager.noteFreq / 2);
 
-                this.ellipses[i].width += partialX;
-                this.ellipses[i].height += partialY;
+                this.ellipses[i].width += PianoManager.noteFreq > 0 ? partialX : 1.5;
+                this.ellipses[i].height += PianoManager.noteFreq > 0 ? partialY : 0.7;
         
                 if(this.ellipses[i].width > 200)
                 {
@@ -109,14 +109,13 @@ export class PianoUIDisplay extends Phaser.Scene {
 
         if (this.rectangles)
         
-            for(var i = 0; i < this.rectangles.length; i++)
+            for (let i = 0; i < this.rectangles.length; i++)
             {
+                const partialX = (SynthManager.options.detune * 0.001) * (PianoManager.noteFreq / 2),
+                      partialY = (SynthManager.options.detune * 0.001) * (PianoManager.noteFreq / 2);
 
-                const partialX = PianoManager.noteFreq * (Math.random() * 0.1),
-                      partialY = PianoManager.noteFreq * (Math.random() * 0.1);
-
-                this.rectangles[i].width += partialX > 0 ? partialX : 1.5;
-                this.rectangles[i].height += partialY > 0 ? partialY : 0.7;
+                this.rectangles[i].width += PianoManager.noteFreq > 0 ? (Math.random() * 10) * partialX : 1.5;
+                this.rectangles[i].height += PianoManager.noteFreq > 0 ? (Math.random() * 10) * partialY : 1.5;
         
                 if(this.rectangles[i].width > this.scale.width)
                 {
@@ -130,7 +129,7 @@ export class PianoUIDisplay extends Phaser.Scene {
 
     //----------------------------- create main window
 
-    public static createWindow ()
+    public static createWindow (): void
     {
         const config = {
             type: Phaser.AUTO,
