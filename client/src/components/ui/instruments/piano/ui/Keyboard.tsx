@@ -56,7 +56,7 @@ export class PianoManager {
 	//--------------------------play note
 	
 
-	public static playNote (message: number, duration: number | string): void 
+	public static playNote (message: number): void 
 	{ 
 
 		VISUALIZATION.init = true; 
@@ -87,8 +87,7 @@ export class PianoManager {
 
 	//play note
 
-		//if (SynthManager.Synth.activeVoices <= 1)
-			SynthManager.Synth.triggerAttackRelease(`${note}`, duration);
+		SynthManager.Synth.triggerAttack(`${note}`);
 
 	}
 
@@ -120,7 +119,7 @@ export function KEYBOARD ()
 			
 			console.log('MIDI ACCESS: ', access);
 			MidiManager.updateDeviceList(Array.from(access.inputs.values()));
-			access.onstatechange = function(e: any){ MidiManager.updateDeviceList(Array.from(this.inputs.values())); }			
+			access.onstatechange = function(e: any) { MidiManager.updateDeviceList(Array.from(this.inputs.values())); }			
 		
 		});
 
@@ -133,18 +132,17 @@ export function KEYBOARD ()
 
 	});
 
-
 	return ( 
 			<div id="piano-ui">
-			<Piano 
-				id="piano" className='bordered'
-				noteRange={{ first: firstNote, last: lastNote }}
-				playNote={ (midiNumber: number): void => PianoManager.playNote(midiNumber, Infinity) }
-				stopNote={ (): void => PianoManager.releaseNotes()}  
-				keyboardShortcuts={keyboardShortcuts}
-				/* width={window.innerWidth / 2} */
-			/>
-		</div>
+				<Piano 
+					id="piano" className='bordered'
+					noteRange={{ first: firstNote, last: lastNote }}
+					playNote={ (midiNumber: number): void => PianoManager.playNote(midiNumber) }
+					stopNote={ (): void => PianoManager.releaseNotes()}  
+					keyboardShortcuts={ keyboardShortcuts }
+					/* width={window.innerWidth / 2} */
+				/>
+			</div>
 	  );
 
 }

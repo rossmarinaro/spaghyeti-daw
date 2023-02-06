@@ -44,6 +44,7 @@ export class SynthManager {
             SynthManager.Synth.dispose().disconnect();
 
         SynthManager.Synth = new Tone.PolySynth({ volume: SynthManager.options.volume, voice: SynthManager.options.voice }).toDestination();
+
         SynthManager.Synth.set({
             envelope: { attack: SynthManager.options.envelope.attack },
             detune: SynthManager.options.detune,
@@ -52,7 +53,7 @@ export class SynthManager {
                 partials: SynthManager.options.oscillator.partials,
                 partialCount: SynthManager.options.oscillator.partialCount
             }
-        })
+        });
     }
 
     //-------------- swap current synth

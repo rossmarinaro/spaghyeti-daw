@@ -75,12 +75,6 @@ export class EventManager {
                     console.log(eventManager.counter8th, padNum);
                     SynthManager.Synth.triggerAttackRelease(this.currentNote, '4n', this.currentTime);
                 }
-                //else 
-                    //console.log('pads: ', pads);
-                // eventManager.events.forEach(event => {
-                //     console.log(event[0]/* .toFixed(2) */, Tone.Transport.seconds, this.currentTime)
-                //     //if (event[0].toFixed(2))
-                // });
             });
        }
 

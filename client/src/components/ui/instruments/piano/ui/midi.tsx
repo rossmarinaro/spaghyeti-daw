@@ -87,7 +87,6 @@
 // // });
 
 
-import { PianoManager } from './Keyboard';
 import VISUALIZATION from './display';
 
 
@@ -97,7 +96,6 @@ export class MidiManager {
     {
 
         console.log('connecting to device: ', device);
-       // PianoManager.assignMidiToKeys();
             
         device.onmidimessage = function(message: WebMidi.MIDIMessageEvent)
         {
