@@ -26,8 +26,12 @@ export class SynthManager {
         voice: Tone.MonoSynth,
         volume: 1,  
         detune: 1,
-        envelope: {attack: 0.1}, 
-        oscillator: { type: 'square', partialCount: 1 }
+        envelope: { attack: 0.1 }, 
+        oscillator: { 
+            type: 'square', 
+            partials: [0, 2, 3, 4],
+            partialCount: 1 
+        }
     }
 
 
@@ -45,6 +49,7 @@ export class SynthManager {
             detune: SynthManager.options.detune,
             oscillator: { 
                 type: SynthManager.options.oscillator.type, 
+                partials: SynthManager.options.oscillator.partials,
                 partialCount: SynthManager.options.oscillator.partialCount
             }
         })

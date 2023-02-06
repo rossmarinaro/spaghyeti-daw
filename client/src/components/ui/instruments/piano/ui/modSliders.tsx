@@ -17,8 +17,8 @@ const getSliderVal = (e: any, meter: string): void => {
             SynthManager.Synth.set({ detune: e.target.value }); 
         break;
         case 'env': 
-            SynthManager.options.envelope.attack = e.target.value;
-            SynthManager.Synth.set({ envelope: {attack: e.target.value } }); 
+            SynthManager.options.envelope.attack = e.target.value * 0.001;
+            SynthManager.Synth.set({ envelope: {attack: e.target.value * 0.001 } }); 
         break;
     }
 
@@ -58,7 +58,7 @@ export function OptionsUI()
                 </div>
                 <div id="env">
                     <p>env</p>
-                    <input id="env-meter-level" className="bordered" type="range" min="0.1" max="100"/>
+                    <input id="env-meter-level" className="bordered" type="range" min="0" max="1000"/>
                 </div>
  
            </div>
