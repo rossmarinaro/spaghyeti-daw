@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { SynthManager } from './synthBank';
+import { SynthManager } from '../piano/ui/synthBank';
 
 
 const getSliderVal = (e: any, meter: string): void => {
@@ -76,7 +76,7 @@ export function ModulationUI()
 
     return (
 
-        <div style={{display: 'flex', height: '100px'}}>
+        <div id="mod-sliders">
             <div>
                 <label htmlFor="volume-meter-level">volume</label>
                 <input id="volume-meter-level" className="bordered mod-slider" type="range" min="0" max="700" step="0.1" />
@@ -90,19 +90,19 @@ export function ModulationUI()
                 <input id="frequency-meter-level" className="bordered mod-slider" type="range" min="0" max="1000"/>
             </div>
             <div>
-                <label htmlFor="env-att-meter-level">env attack</label>
+                <label htmlFor="env-att-meter-level">env att</label>
                 <input id="env-att-meter-level" className="bordered mod-slider" type="range" min="0" max="1" step="0.1" />
             </div>
             <div>
-                <label htmlFor="env-rel-meter-level">env release</label>
+                <label htmlFor="env-rel-meter-level">env rel</label>
                 <input id="env-rel-meter-level" className="bordered mod-slider" type="range" min="0" max="1" step="0.1" />
             </div>
             <div>
-                <label htmlFor="env-sus-meter-level">env sustain</label>
+                <label htmlFor="env-sus-meter-level">env sus</label>
                 <input id="env-sus-meter-level" className="bordered mod-slider" type="range" min="0" max="1" step="0.1" />
             </div>
             <div>
-                <label htmlFor="env-dec-meter-level">env decay</label>
+                <label htmlFor="env-dec-meter-level">env dec</label>
                 <input id="env-dec-meter-level" className="bordered mod-slider" type="range" min="0" max="1" step="0.1" />
             </div>
         </div>   

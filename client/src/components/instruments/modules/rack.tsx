@@ -1,4 +1,4 @@
-import { ModulationUI } from '../piano/ui/modSliders';
+import { ModulationUI } from './modSliders';
 
 export function ModuleRack()
 {

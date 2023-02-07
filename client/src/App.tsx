@@ -20,24 +20,20 @@ function App() {
 
       <div className="App" >
 
-      <div id="main-container">
-        
-        <div id="piano-rack" className="container" ><PIANO /></div>  
-        
-
-        <div id="workspace">   
-
-          <div className="container"><TRACK /></div>
-          <div className="container"></div>
-          <div className="container"></div>
-
+        <div id="main-container">
+          
+          <div id="piano-rack" className="container" ><PIANO /></div>  
+          
+          <div id="workspace">   
+            <div className="container"><TRACK /></div>
+            <div className="container"></div>
+            <div className="container"></div>
+          </div>
 
         </div>
 
       </div>
-
-
-      </div>
+      
     </>
   );
 }

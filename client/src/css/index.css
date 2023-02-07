@@ -1,4 +1,5 @@
 body {
+  background-color: #404041;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -14,8 +15,59 @@ code {
 
 * {
   user-select: none;
+  font-family: monospace;
+  /*   border: 1px solid red; */
 }
 
+
+p {
+  margin: auto; 
+}
+
+
+li {
+  list-style: none;
+}
+
+h1{
+  padding-left: 40%;
+}
+
+canvas {
+  padding: 3% 3% 3% 3%;
+  box-sizing: border-box;
+  width: 100%
+}
+
+
+input[type='range'] 
+{
+  margin-top: 30px;
+  appearance: none; 
+  transform: rotate(270deg);
+  width: 70%;
+  height: 30px;
+  overflow: hidden;
+  border: 1px solid #000000; 
+  color: #000000;
+  background-color: #000000;
+  background-color: #616161;
+}
+
+input[type='range']::-webkit-slider-thumb 
+{
+  appearance: none;
+  width: 10%; 
+  height: 50px;
+  border: 1px solid #000000; 
+  color: #000000;
+  background-color: #000000;
+}
+
+/* no file chosen tooltip */
+input[type='file'] {
+  color: transparent;
+}
 
 /* debug */
 

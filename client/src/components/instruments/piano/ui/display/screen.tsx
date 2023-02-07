@@ -31,9 +31,9 @@ export class PianoUIDisplay extends Phaser.Scene {
     private create(): void
     {
 
-        this.graphicsA = this.add.graphics({ lineStyle: { color: 0x00ff1a, alpha: 0.5 } });
-        this.graphicsB = this.add.graphics({ lineStyle: { color: 0xffff00, alpha: 0.5 } });
-        this.graphicsC = this.add.graphics({ lineStyle: { width: 2, color: 0x17cdee, alpha: 0.5 } });
+        this.graphicsA = this.add.graphics({ lineStyle: { width: 1, color: 0x00ff1a, alpha: 0.5 } });
+        this.graphicsB = this.add.graphics({ lineStyle: { width: 1, color: 0xffff00, alpha: 0.5 } });
+        this.graphicsC = this.add.graphics({ lineStyle: { width: 1, color: 0x17cdee, alpha: 0.5 } });
 
         
         this.textA = this.add.text(10, 10, '', { font: "1rem Arial"}).setColor('#ffffff').setStroke('#ff0000', 0.7);
@@ -104,30 +104,30 @@ export class PianoUIDisplay extends Phaser.Scene {
 
             for (let i = 0; i < this.ellipses.length; i++)
             {
-                const partialX =  (SynthManager.options.oscillator.partialCount * 0.001) * (PianoManager.noteFreq / 2),
-                      partialY = (SynthManager.options.oscillator.partialCount * 0.001) * (PianoManager.noteFreq / 2);
+                const partial =  (SynthManager.options.oscillator.partialCount * 0.001) * (PianoManager.noteFreq / 2);
 
-                this.ellipses[i].width += PianoManager.noteFreq > 0 ? partialX : 1.5;
-                this.ellipses[i].height += PianoManager.noteFreq > 0 ? partialY : 0.7;
+                this.ellipses[i].width += PianoManager.noteFreq > 0 ? partial : 1.5;
+                this.ellipses[i].height += PianoManager.noteFreq > 0 ? partial : 0.7;
         
                 if(this.ellipses[i].width > 200)
                 {
                     this.ellipses[i].width = 0;
                     this.ellipses[i].height = 0;
                 }
-                //this.graphicsA?.lineStyle(2, 0x0000aa);
-                this.graphicsA?.strokeEllipseShape(this.ellipses[i]);
+
+                let effect = PianoManager.noteFreq > 0 ? partial : 1;
+
+                this.graphicsA?.strokeEllipseShape(this.ellipses[i]).lineStyle(1, 0x00ff1a * effect, 0.5);
             }
 
         if (this.rectangles)
         
             for (let i = 0; i < this.rectangles.length; i++)
             {
-                const partialX = (SynthManager.options.detune * 0.001) * (PianoManager.noteFreq / 2),
-                      partialY = (SynthManager.options.detune * 0.001) * (PianoManager.noteFreq / 2);
+                const partial = (SynthManager.options.detune * 0.001) * (PianoManager.noteFreq / 2);
 
-                this.rectangles[i].width += PianoManager.noteFreq > 0 ? (Math.random() * 10) * partialX : 1.5;
-                this.rectangles[i].height += PianoManager.noteFreq > 0 ? (Math.random() * 10) * partialY : 1.5;
+                this.rectangles[i].width += PianoManager.noteFreq > 0 ? (Math.random() * 10) * partial : 1.5;
+                this.rectangles[i].height += PianoManager.noteFreq > 0 ? (Math.random() * 10) * partial : 1.5;
         
                 if(this.rectangles[i].width > this.scale.width)
                 {
@@ -135,18 +135,19 @@ export class PianoUIDisplay extends Phaser.Scene {
                     this.rectangles[i].height = 0;
                 }
         
-                this.graphicsB?.strokeRectShape(this.rectangles[i]);
+                let effect = PianoManager.noteFreq > 0 ? partial : 1;
+
+                this.graphicsB?.strokeRectShape(this.rectangles[i]).lineStyle(1, 0xffff00 * effect, 0.5);
             }
 
         if (this.triangles)
         
             for (let i = 0; i < this.triangles.length; i++)
             {
-                const partialX = SynthManager.options.envelope.attack * (PianoManager.noteFreq / 2),
-                      partialY = SynthManager.options.envelope.attack * (PianoManager.noteFreq / 2);
+                const partial = SynthManager.options.envelope.attack * (PianoManager.noteFreq / 2);
 
-                this.triangles[i].left += PianoManager.noteFreq > 0 ? partialX : 1.5;
-                this.triangles[i].right += PianoManager.noteFreq > 0 ? partialY : 1.5;
+                this.triangles[i].left += PianoManager.noteFreq > 0 ? partial : 1.5;
+                this.triangles[i].right += PianoManager.noteFreq > 0 ? partial : 1.5;
 
                 if(this.triangles[i].left > this.scale.width)
                 {
@@ -154,7 +155,9 @@ export class PianoUIDisplay extends Phaser.Scene {
                     this.triangles[i].right = 0;
                 }
 
-                this.graphicsC?.strokeTriangleShape(this.triangles[i]);
+                let effect = PianoManager.noteFreq > 0 ? partial : 1;
+
+                this.graphicsC?.strokeTriangleShape(this.triangles[i]).lineStyle(1, 0x17cdee * effect, 0.5);
             }
     }
 

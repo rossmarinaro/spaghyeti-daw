@@ -85,7 +85,7 @@ export class PianoManager {
 
 	//play note
 
-		SynthManager.options.type === 'poly' ?
+		SynthManager.Synth && SynthManager.options.type === 'poly' ?
 			SynthManager.Synth.triggerAttack(`${note}`) :
 			SynthManager.Synth.triggerAttackRelease(`${note}`, '8n');
 
@@ -96,7 +96,7 @@ export class PianoManager {
 	public static releaseNotes (): void
 	{
 		
-		if (SynthManager.options.type === 'poly')
+		if (SynthManager.Synth && SynthManager.options.type === 'poly')
 			SynthManager.Synth.releaseAll();
 
 		PianoManager.notesPlaying = [];
