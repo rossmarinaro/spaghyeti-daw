@@ -89,6 +89,7 @@
 
 import VISUALIZATION from './display';
 import { InstrumentManager, InstrumentUI } from '../../main';
+import { PianoManager } from './keyboard';
 
 
 export class MidiManager {
@@ -100,10 +101,16 @@ export class MidiManager {
             
         device.onmidimessage = function(message: WebMidi.MIDIMessageEvent)
         {
-            const [command, num, velocity]: any = message.data;
+            const [command, num, velocity]: any = message.data; 
 
             if (command === 248) //up
+            {
                 VISUALIZATION.init = false;
+                PianoManager.releaseNotes();
+            }
+
+            else 
+               PianoManager.playNote(num);
         }
     }
 
