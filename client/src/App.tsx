@@ -1,24 +1,18 @@
 
 import './css/App.css';
 
-import { Midi } from './components/instruments/piano/ui/midi';
-import { FileManagerUI } from './components/workspace/file';
 import { PIANO } from './components/instruments/piano/main';
 import { TRACK } from './components/workspace/track/main'; 
+import { Header } from './components/header';
 
 
 function App() {
   
   return (
 
-    <>
-    
-      <header className="App-header">
-        <FileManagerUI />
-        <Midi />
-      </header>
+      <div id="App" >
 
-      <div className="App" >
+      <Header />
 
         <div id="main-container">
           
@@ -30,11 +24,9 @@ function App() {
             <div className="container"></div>
           </div>
 
-        </div>
+        </div> 
 
       </div>
-      
-    </>
   );
 }
 

@@ -87,9 +87,8 @@
 // // });
 
 
-import VISUALIZATION from './display';
-import { InstrumentManager, InstrumentUI } from '../../main';
-import { PianoManager } from './keyboard';
+import VISUALIZATION from './instruments/piano/ui/display';
+import { PianoManager } from './instruments/piano/ui/keyboard';
 
 
 export class MidiManager {
@@ -140,24 +139,5 @@ export class MidiManager {
 }
 
 
-
-export function Midi()
-{
-    return (
-        <>
-            <div className="bordered options midi-option">
-                <p id="current-midi-device">NO DEVICE SELECTED</p>
-            </div>
-
-            <InstrumentUI instrument={ InstrumentManager.currentInstrument }/>
-            
-            <div id="midi-device" className="options">
-                <div className="bordered options midi-option"><p>SELECT MIDI DEVICE</p></div>
-                <div className="bordered options midi-option"><p>CLEAR MIDI DEVICE</p></div>
-            </div>
-        </>
-
-    );
-}
 
 

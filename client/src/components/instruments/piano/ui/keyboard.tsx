@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { SynthManager } from './synthBank';
 import { eventManager } from './sequencer/eventManager';
 import { playerManager } from '../../../workspace/track/playerManager';
-import { MidiManager } from './midi';
+import { MidiManager } from '../../../midi';
 import VISUALIZATION from './display';
 
 

@@ -127,9 +127,18 @@
   /* custom */
 
 
-  #piano-rack {
-    position: fixed;
-    top: 10%;
+  #piano-rack { 
+    position:relative;
+    /* top: 5%; */
+    width: 75%;
+  } 
+
+  #piano-ui {
+    background-color: #375087;
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
+
   } 
   
   .sound-bank {
@@ -159,6 +168,9 @@
 
 @media screen and (orientation: portrait)
 {
+  #piano-ui {
+    height: 80px;
+  }
   #synth-options {
     display: flex;
     padding: 5%;
@@ -172,7 +184,7 @@
 @media screen and (orientation: landscape)
 {
   #piano-ui {
-    height: 180px;
+    height: 150px;
   }
 
   #synth-options div {
@@ -186,7 +198,7 @@
 @media screen and (min-width: 1030px) /* desktop only */
 {
   #piano-ui {
-    height: 180px;
+    height: 120px;
   
   }
 }
