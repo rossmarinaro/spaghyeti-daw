@@ -48,9 +48,9 @@
   background-color: #3f3d43;
 }
 
-#mod-sliders{
+#mod-sliders {
 
-  display: flex; 
+/*   display: flex;  */
 }
 
 
@@ -124,6 +124,9 @@
 
 @media screen and (orientation: portrait)
 {
+  #mod-sliders label {
+      font-size: 0.3em;
+  }
   #main-container{
     height: 1000px;
     display: flex;
@@ -136,6 +139,9 @@
 }
 @media screen and (orientation: landscape)
 {
+  #mod-sliders label {
+    font-size: 1em;
+  }
   #main-container{
     height: 800px;
     display: flex;

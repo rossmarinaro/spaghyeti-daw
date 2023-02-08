@@ -78,31 +78,31 @@ export function ModulationUI()
 
         <div id="mod-sliders">
             <div>
-                <label htmlFor="volume-meter-level">volume</label>
+                {/* <label htmlFor="volume-meter-level">volume</label> */}
                 <input id="volume-meter-level" className="bordered mod-slider" type="range" min="0" max="700" step="0.1" />
             </div>
             <div>
-                <label htmlFor="partials-meter-level">partials</label>
+                {/* <label htmlFor="partials-meter-level">partials</label> */}
                 <input id="partials-meter-level" className="bordered mod-slider" type="range" min="0" max="200"/>
             </div>
             <div>
-                <label htmlFor="frequency-meter-level">frequency</label>
+          {/*       <label htmlFor="frequency-meter-level">frequency</label> */}
                 <input id="frequency-meter-level" className="bordered mod-slider" type="range" min="0" max="1000"/>
             </div>
             <div>
-                <label htmlFor="env-att-meter-level">env att</label>
+               {/*  <label htmlFor="env-att-meter-level">env att</label> */}
                 <input id="env-att-meter-level" className="bordered mod-slider" type="range" min="0" max="1" step="0.1" />
             </div>
             <div>
-                <label htmlFor="env-rel-meter-level">env rel</label>
+               {/*  <label htmlFor="env-rel-meter-level">env rel</label> */}
                 <input id="env-rel-meter-level" className="bordered mod-slider" type="range" min="0" max="1" step="0.1" />
             </div>
             <div>
-                <label htmlFor="env-sus-meter-level">env sus</label>
+               {/*  <label htmlFor="env-sus-meter-level">env sus</label> */}
                 <input id="env-sus-meter-level" className="bordered mod-slider" type="range" min="0" max="1" step="0.1" />
             </div>
             <div>
-                <label htmlFor="env-dec-meter-level">env dec</label>
+                {/* <label htmlFor="env-dec-meter-level">env dec</label> */}
                 <input id="env-dec-meter-level" className="bordered mod-slider" type="range" min="0" max="1" step="0.1" />
             </div>
         </div>   
