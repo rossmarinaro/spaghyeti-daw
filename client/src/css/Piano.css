@@ -192,7 +192,7 @@
 
   }
   .sound-bank-item p{
-    font-size: 1em;
+    font-size: 1em; 
   }
 }
 @media screen and (min-width: 1030px) /* desktop only */

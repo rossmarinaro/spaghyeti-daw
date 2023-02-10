@@ -57,16 +57,15 @@ export class PianoManager {
 		PianoManager.noteFreq = message * PianoManager.octave;
 
 		let note = midiToNote(PianoManager.noteFreq),
-			time = Tone.Transport.seconds;
+			time = Tone.Transport.seconds,
+			isFlat = note.toString().toLowerCase().includes('b');
 
-		PianoManager.noteType = note.toString().includes('b') ? 'flat' : 'natural'; 
+		PianoManager.noteType = isFlat ? 'flat' : 'natural'; 
 
 		PianoManager.notesPlaying.push(note);
 
-        const notation = document.getElementById(note); 
+		document.getElementById(note)?.setAttribute('display', 'visible');
 
-        notation?.setAttribute('display', 'visible');
-	
 	//capture inputs if recording
 
 		if (playerManager.recording === true)
@@ -92,8 +91,7 @@ export class PianoManager {
 			SynthManager.Synth.releaseAll();
 
 		PianoManager.notesPlaying.forEach(note => {
-            const notation = document.getElementById(note.toString().toUpperCase()); 
-            notation?.setAttribute('display', 'none');
+            document.getElementById(note.toString())?.setAttribute('display', 'none');
             PianoManager.notesPlaying = [];
         });
 		PianoManager.noteFreq = 0;
