@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { SynthManager } from '../synthBank';
-import { PianoManager } from '../keyboard';
+import { PianoManager } from '../../main';
 import VISUALIZATION from '../display';
 
 export class PianoUIDisplay extends Phaser.Scene {
@@ -98,7 +98,7 @@ export class PianoUIDisplay extends Phaser.Scene {
         this.graphicsC?.clear();
 
         if (this.textA)
-            this.textA.setText(`NOTES PLAYING: ${PianoManager.notesPlaying}`);
+            this.textA.setText(`NOTES PLAYING: ${PianoManager.notesPlaying}`);  
 
         if (this.ellipses)
 

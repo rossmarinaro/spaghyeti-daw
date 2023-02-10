@@ -22,7 +22,7 @@ export function Display()
         initialized = true;
 
         PianoUIDisplay.createWindow();
-        
+    
     });
 
     return (

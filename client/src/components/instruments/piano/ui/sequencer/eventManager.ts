@@ -1,5 +1,4 @@
 import * as Tone from 'tone';
-import { PianoManager } from '../keyboard';
 import { SynthManager } from '../synthBank';
 
 

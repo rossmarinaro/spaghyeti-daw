@@ -88,7 +88,7 @@
 
 
 import VISUALIZATION from './instruments/piano/ui/display';
-import { PianoManager } from './instruments/piano/ui/keyboard';
+import { PianoManager } from './instruments/piano/main';
 
 
 export class MidiManager {
