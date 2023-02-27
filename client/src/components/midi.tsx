@@ -105,7 +105,7 @@ export class MidiManager {
             if (command === 248) //up
             {
                 VISUALIZATION.init = false;
-                PianoManager.releaseNotes();
+                PianoManager.releaseNote(num, PianoManager.relTime);
             }
 
             else 

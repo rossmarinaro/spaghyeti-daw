@@ -21,8 +21,11 @@ export class PianoManager {
 	public static notesPlaying: number[] = [] 
 	public static noteFreq: number = 0
 	public static noteType: string = ''
+	public static relTime: string = ''
+
 
 	//------------------------------ assign keys
+
 
 	public static assignKeys (): void
 	{     
@@ -82,11 +85,27 @@ export class PianoManager {
 
 	}
 
-	//-----------------------------
+	//----------------------------- release note
+
+	public static releaseNote (message: number, time: string): void
+	{
+
+		let note = midiToNote(message * PianoManager.octave);
+
+		document.getElementById(note.toString())?.setAttribute('display', 'none');
+
+		SynthManager.Synth.triggerRelease(`${note}`/* , time */);
+		PianoManager.notesPlaying.splice(PianoManager.notesPlaying.indexOf(note));
+		PianoManager.noteFreq = 0;
+		PianoManager.noteType = '';
+		VISUALIZATION.init = false;
+	}
+
+	//------------------------------- release notes
 
 	public static releaseNotes (): void
 	{
-		
+
 		if (SynthManager.Synth && SynthManager.options.type === 'poly')
 			SynthManager.Synth.releaseAll();
 

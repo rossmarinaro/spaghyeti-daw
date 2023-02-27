@@ -9,25 +9,28 @@ export const playerManager = {
     recording: false
 }
 
-export function PlayerRack()
+export function PlayerRack(props: {start: any, stop: any})
 {
 
     let toggle = false;
 
     const handleActions = (e: any) => e.preventDefault(),
-
+ 
     update = (action: string) => {
 
         switch(action)
         {
             case 'record': 
-            
+
+                props.start();
+                Tone.Transport.start(0);
                 playerManager.recording = true; 
                 
             break; 
 
             case 'start': 
 
+                props.stop();
                 Tone.Transport.start(0);
                 eventManager.sequenceArray.start(0);
                 eventManager.mainLoop.start(0);
@@ -38,6 +41,7 @@ export function PlayerRack()
 
             case 'stop': 
 
+                props.stop();
                 Tone.Transport.stop(0);
                 eventManager.sequenceArray.stop(0);
                 eventManager.mainLoop.stop(0);

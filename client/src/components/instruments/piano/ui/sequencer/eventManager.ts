@@ -71,7 +71,7 @@ export class EventManager {
                 let padNum = Number(pad.getAttribute('data-part'));
                 if (eventManager.counter8th === padNum)
                 {
-                    console.log(eventManager.counter8th, padNum);
+                   //console.log(eventManager.counter8th, padNum);
                     SynthManager.Synth.triggerAttackRelease(this.currentNote, '4n', this.currentTime);
                 }
             });
